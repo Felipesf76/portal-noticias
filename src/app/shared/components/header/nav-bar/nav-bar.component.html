@@ -1,0 +1,12 @@
+<nav>
+  <ul class="flex justify-end h-full w-full gap-10">
+    @for ( item of list; track item.title) {
+      <!-- // TODO: Fix the Active link -->
+      <li [routerLinkActive]="['text-fourth']">
+        <a [routerLink]=[item.link] class="text-secundary hover:text-fourth">
+          {{item.title}}
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

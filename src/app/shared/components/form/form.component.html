@@ -1,0 +1,60 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col justify-center items-center w-full h-full px-14">
+
+  @for (field of fields; track field.name) {
+    @if(field.type === 'text' || 'email' || 'password' || 'number' || 'date'){
+      <fieldset class="flex flex-col justify-center items-center w-full">
+        <legend class="text-primary">
+          {{field.label}}
+        </legend>
+        <input
+          [type]="field.type"
+          [formControlName]="field.name"
+          [placeholder]="field.placeholder || ''"
+          class="w-full h-10 p-2 rounded-md border-1 border-primary/40"
+        >
+      </fieldset>
+    }
+      <!-- Input de texto, email, password, number, date -->
+    @if(field.type === 'select'){
+      <!-- Select -->
+      <select
+        [formControlName]="field.name"
+      >
+        @for (option of field.options; track option.value) {
+          <option [value]="option.value">
+            {{ option.label }}
+          </option>
+        }
+      </select>
+    }
+    @if(field.type === 'checkbox'){
+      <!-- Checkbox -->
+      <input
+        type="checkbox"
+        [formControlName]="field.name"
+      />
+    }
+
+    <!-- Mostrar errores de validación -->
+    @if ((form.get(field.name)?.touched || form.get(field.name)?.dirty) && form.get(field.name)?.invalid) {
+      Validación
+      {{form.get(field.name)?.hasError('minimumLength')}}
+        @if (form.get(field.name)?.hasError('isEmpty')) {
+          adios
+          <small class="text-danger">{{ field.label }} es requerido.</small>
+        }
+        @if (form.get(field.name)?.hasError('minimumLength')) {
+          Holis
+          <small class="text-danger">{{ form.get(field.name)?.errors?.['minimumLength'].message }}</small>
+        }
+    }
+  }
+
+  <button
+    type="submit"
+    [disabled]="form.invalid"
+    class="w-full h-10 p-2 rounded-md bg-primary text-white mt-10 cursor-pointer"
+  >
+    Submit
+  </button>
+</form>

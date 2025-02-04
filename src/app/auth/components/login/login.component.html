@@ -1,0 +1,11 @@
+<div class="flex justify-around items-center h-full w-full">
+
+  <section class="flex flex-col w-1/2 h-full items-center justify-center">
+    <h1 class="text-4xl font-bold text-primary mb-10">
+      {{title}}
+    </h1>
+    <app-form class="h-grow w-full" [fields]="registerFields" (formSubmit)="onFormSubmit($event)"></app-form>
+  </section>
+
+  <img class="w-1/2 h-full" src="https://i.pinimg.com/originals/b4/d1/c9/b4d1c9f9e4a6f3e9d3f4f2e1f8e8f5f7.jpg" alt="">
+</div>

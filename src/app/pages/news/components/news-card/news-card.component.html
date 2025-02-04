@@ -1,0 +1,35 @@
+<section class="w-full h-54 grid grid-cols-4 grid-rows-4 my-11 px-10 gap-1 hover:bg-fourth/20 cursor-pointer" (click)="goToNews()">
+  <div class="col-span-1 col-start-1 row-span-4 p-1.5">
+    <img src="{{ newsImge }}" alt="Imagen de noticia">
+  </div>
+  <h1 class="col-span-4 col-start-2 row-span-1 row-start-1 text-start text-2xl font-bold">
+    {{ newsTitle }}
+  </h1>
+  <div class="col-span-4 col-start-2 row-span-2 row-start-2 w-full h-full  font-light">
+    <p
+      class="line-clamp-4"
+    >
+      {{ newsDescription }}
+    </p>
+  </div>
+  <div class="col-span-4 col-start-2 row-span-1 row-end-5 w-full h-full mb-2.5">
+    <div class="flex justify-around items-end w-full h-full font-bold">
+      <span
+        class="flex gap-1 flex-grow"
+      >
+        <i class="fas fa-eye"></i>
+        Vistas
+      </span>
+      <span>
+        Lugar
+      </span>
+      <span>
+        Categoría
+      </span>
+      <span>
+        Autor
+      </span>
+    </div>
+  </div>
+</section>
+<div class="col-span-5 border-b"></div>
