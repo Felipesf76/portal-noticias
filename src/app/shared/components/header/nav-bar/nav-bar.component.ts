@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PageModel } from '@app/models/pages.model';
+import { PageModel } from './pages.model';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
