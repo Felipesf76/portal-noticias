@@ -1,9 +1,7 @@
 import { Injectable} from '@angular/core';
 import { News } from '@app/models/News';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class NewsService {
   //TODO: Change to real url
   //private baseUrl = 'http://localhost'

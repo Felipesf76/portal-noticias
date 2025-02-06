@@ -1,10 +1,11 @@
-export class UserModel {
+export class User {
   constructor(
-    public id: number,
-    public fullName: string,
-    public userName: string,
-    public birthDate: Date,
-    public email: string,
-    public password: string
+    id: string,
+    corre: string,
+    password: string,
+    nombre_usuario: string,
+    nombre_completo: string,
+    sexo: string,
+    fecha_nacimiento: Date
   ) {}
 }
