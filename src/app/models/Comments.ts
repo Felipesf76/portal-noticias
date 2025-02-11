@@ -1,10 +1,10 @@
 export class Comments{
     constructor(
-        id:string, 
-        fecha_comentario:Date,
-        texto: string,
-        id_usuarios: string,
-        id_noticias: string
+        public id:string, 
+        public fecha_comentario:Date,
+        public texto: string,
+        public id_usuarios: string,
+        public id_noticias: string
     )
     {
         

@@ -1,8 +1,8 @@
 export class Califications{
     constructor(
-        id_usuarios:string, 
-        id_noticias:string,
-        valor:number
+        public id_usuarios:string, 
+        public id_noticias:string,
+        public valor:number
     )
     {
         
