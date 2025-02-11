@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NewsService } from '../../services/news.service';
+import { NewsService } from '@services/news.service';
 import { NewsCardComponent } from '@news/components/news-card/news-card.component';
 
 
