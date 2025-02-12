@@ -1,11 +1,11 @@
 export class User {
   constructor(
-    id: string,
-    corre: string,
-    password: string,
-    nombre_usuario: string,
-    nombre_completo: string,
-    sexo: string,
-    fecha_nacimiento: Date
+    public id: string,
+    public corre: string,
+    public password: string,
+    public nombre_usuario: string,
+    public nombre_completo: string,
+    public sexo: string,
+    public fecha_nacimiento: Date
   ) {}
 }

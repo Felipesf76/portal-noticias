@@ -12,7 +12,7 @@ export class NewsRatingComponent {
   selectedRating: number = 0; // Calificación seleccionada por el usuario
 
   stars: number[] = [1, 2, 3, 4, 5];
-
+  //TODO: Mejorar la lógica con la calificación
   rate(rating: number): void {
     this.selectedRating = rating;
   }

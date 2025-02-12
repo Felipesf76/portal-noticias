@@ -1,9 +1,9 @@
 export class Admins{
     constructor(
-        id:string
+        public id:string
     )
     {
-        
+
     }
 
 }

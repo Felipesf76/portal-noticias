@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col justify-center items-center w-full h-full px-14">
 
   @for (field of fields; track field.name) {
-    @if(field.type === 'text' || 'email' || 'password' || 'number' || 'date'){
+    @if(field.type === 'text' || 'email' || 'password' || 'number' || 'date' || 'file'){
       <fieldset class="flex flex-col justify-center items-center w-full">
         <legend class="text-primary">
           {{field.label}}
@@ -10,6 +10,7 @@
           [type]="field.type"
           [formControlName]="field.name"
           [placeholder]="field.placeholder || ''"
+          [accept]="field.accept || ''"
           class="w-full h-10 p-2 rounded-md border-1 border-primary/40"
         >
       </fieldset>

@@ -1,0 +1,18 @@
+<div class="flex items-start w-full gap-2">
+  <textarea
+    class="h-40 border rounded-md p-2 w-10/12"
+    name="comment"
+    id="comment"
+    cols="10"
+    rows="5"
+    [value]=""
+    (input)="onChange($event)"
+    placeholder="Escribe tu comentario"></textarea>
+  <button
+    class="btn bg-primary text-white rounded-md p-2 w-24"
+    [disabled]="!text"
+    (click)="onSubmit()"
+  >
+    Comentar
+  </button>
+</div>

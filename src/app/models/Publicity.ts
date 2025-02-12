@@ -1,16 +1,16 @@
 export class Publicity{
     constructor(
-        id:string, 
-        titulo:string,
-        url: string,
-        multimedia: string,
-        fecha_activacion: Date,
-        fecha_fin: Date,
-        fecha_publicacion: Date,
-        id_administrador: string
+        public id:string,
+        public titulo:string,
+        public url: string,
+        public multimedia: string,
+        public fecha_activacion: Date,
+        public fecha_fin: Date,
+        public fecha_publicacion: Date,
+        public id_administrador: string
     )
     {
-        
+
     }
 
 }

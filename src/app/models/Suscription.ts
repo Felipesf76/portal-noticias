@@ -1,10 +1,10 @@
 export class Suscription{
     constructor(
-        id_usuarios:string, 
-        id_categorias:string
+        public id_usuarios:string,
+        public id_categorias:string
     )
     {
-        
+
     }
 
 }

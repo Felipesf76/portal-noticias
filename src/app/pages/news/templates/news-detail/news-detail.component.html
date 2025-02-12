@@ -33,6 +33,18 @@
       (ratingSubmitted)="handleRatingSubmission($event)"
     >
     </app-news-rating>
+    <section class="self-center w-2/3 mt-10">
+      <h2 class="text-2xl font-bold mb-8">Crea un comentario</h2>
+      <app-form-add-comment
+        (textComment)="handleCommentText($event)"
+      ></app-form-add-comment>
+    </section>
+    <section class="self-center w-2/3 mt-10">
+      <h2 class="text-2xl font-bold mb-8">Comentarios</h2>
+      @for(comment of comments; track comment.id){
+        <app-news-comments-list [comment]="comment"></app-news-comments-list>
+      }
+    </section>
   </div>
   <aside class=" col-span-1 col-end-5 row-span-4 bg-blue-200">
     Imagen de propaganda

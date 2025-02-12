@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { NewsService } from '@services/news.service';
-import { NewsCardComponent } from '@news/components/news-card/news-card.component';
 import { News } from '@app/models/News';
+import { NewsService } from '@app/services/news.service';
+import { NewsCardComponent } from '@news/components/news-card/news-card.component';
 
 
 @Component({
-  selector: 'app-news-list',
+  selector: 'app-news-created',
   imports: [NewsCardComponent],
-  templateUrl: './news-list.component.html',
-  styleUrl: './news-list.component.css',
+  templateUrl: './news-created.component.html',
+  styleUrl: './news-created.component.css',
   providers: [NewsService]
 })
-export class NewsListComponent {
+export class NewsCreatedComponent {
   public records_new: Array<News>
 
   constructor(private newsService: NewsService){

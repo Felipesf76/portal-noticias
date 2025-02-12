@@ -1,35 +1,46 @@
-<section class="w-full h-54 grid grid-cols-4 grid-rows-4 my-11 px-10 gap-1 hover:bg-fourth/20 cursor-pointer" (click)="goToNews()">
-  <div class="col-span-1 col-start-1 row-span-4 p-1.5">
-    <img src="{{ var_news.multimedia}}" alt="Imagen de noticia">
+<section class="w-full h-54 grid grid-cols-4 grid-rows-4 my-11 px-10 gap-1 hover:bg-fourth/20 cursor-pointer border-b">
+  <div class="col-span-1 col-start-1 row-span-4 p-1.5" (click)="goToNews()">
+    <img src='' alt="Imagen de noticia">
   </div>
-  <h1 class="col-span-4 col-start-2 row-span-1 row-start-1 text-start text-2xl font-bold">
-    {{ var_news.titulo }}
-  </h1>
-  <div class="col-span-4 col-start-2 row-span-2 row-start-2 w-full h-full  font-light">
+  <div class="col-span-4 col-start-2 row-span-1 row-start-1 text-start text-2xl font-bold flex justify-between">
+    <h1 class="text-2xl font-bold">
+      {{ varNews.titulo }}
+    </h1>
+    @if(editNews){
+      <div class="flex gap-2">
+        <button class="border-2 border-primary rounded-md w-8 h-8 hover:bg-fourth cursor-pointer">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button class="border-2 border-primary rounded-md w-8 h-8 hover:bg-blue-400 cursor-pointer">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+    }
+  </div>
+  <div class="col-span-4 col-start-2 row-span-2 row-start-2 w-full h-full  font-light" (click)="goToNews()">
     <p
       class="line-clamp-4"
     >
-      {{ var_news.descripcion }}
+      {{ varNews.descripcion }}
     </p>
   </div>
-  <div class="col-span-4 col-start-2 row-span-1 row-end-5 w-full h-full mb-2.5">
+  <div class="col-span-4 col-start-2 row-span-1 row-end-5 w-full h-full mb-2.5" (click)="goToNews()">
     <div class="flex justify-around items-end w-full h-full font-bold">
       <span
         class="flex gap-1"
       >
         <i class="fas fa-eye"></i>
-        {{ var_news.vistas}}
+        {{ varNews.vistas}}
       </span>
       <span>
-        {{var_news.pais}}
+        {{varNews.pais}}
       </span>
       <span>
-        {{var_news.id_categorias}}
+        {{varNews.id_categorias}}
       </span>
       <span>
-        {{var_news.autor}}
+        {{varNews.autor}}
       </span>
     </div>
   </div>
 </section>
-<div class="col-span-5 border-b"></div>
