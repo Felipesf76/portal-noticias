@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { User } from '@app/models/User';
 
 @Component({
   selector: 'app-user-list',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './user-list.component.css'
 })
 export class UserListComponent {
-
+  @Input() user:User = new User('','', '', '', '','',new Date())
 }
