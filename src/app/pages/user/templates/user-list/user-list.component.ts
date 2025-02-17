@@ -9,9 +9,9 @@ import { User } from '@app/models/User';
   styleUrl: './user-list.component.css'
 })
 export class UserListComponent {
-  public user: User[]
+  public users: User[]
     constructor(private _userService: UserService){
-      this.user = this._userService.getUsers()
+      this.users = this._userService.getUsers()
     }
 
 }
