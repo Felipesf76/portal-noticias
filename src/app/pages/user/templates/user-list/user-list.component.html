@@ -1,7 +1,14 @@
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <div class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
-    </div>
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+<div class="grid grid-cols-4 h-full w-full">
+    <div class="flex flex-col w-full col-span-3 col-start-1 px-16 gap-4 my-12">
+      <header class="w-full">
+        <h1 class="text-4xl font-bold">
+          Usuarios
+        </h1>
+    </header>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
+        </div>
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
@@ -19,11 +26,8 @@
                 <th scope="col" class="px-6 py-3">
                     Genero
                 </th>
-                <th scope="col" class="p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-all-search" class="sr-only">Administrador</label>
-                    </div>
+                <th scope="col" class="px-6 py-3">
+                    Administrador
                 </th>
                 <th scope="col" class="px-6 py-3">
                     ACCIONES
@@ -35,7 +39,25 @@
 
                     <!--@for(user of users; track user.id){-->
                     <!--<app-user-list [user]="user"></app-user-list>-->
-
+                    @for(user of users; track user.id){
+                        <app-user-list [user]="user"></app-user-list>
+                      }
+                    <td class="w-4 p-4">
+                       
+                    </td>
+                    <td class="w-4 p-4">
+                       
+                    </td>
+                    <td class="w-4 p-4">
+                       
+                    </td>
+                    <td class="w-4 p-4">
+                       
+                    </td>
+                    <td class="w-4 p-4">
+                       
+                    </td>
+                    
                     <td class="w-4 p-4">
                         <div class="flex items-center">
                             <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -111,7 +133,10 @@
             </form>
         </div>
     </div>
-    <aside class=" col-span-1 col-end-5 row-span-4 bg-blue-200">
-        Imagen de propaganda
-      </aside>
+</div>
+
+</div>
+<aside class=" col-span-1 col-end-5 row-span-4 bg-blue-200">
+    Imagen de propaganda
+  </aside>    
 </div>
