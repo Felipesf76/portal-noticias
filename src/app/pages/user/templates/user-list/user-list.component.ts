@@ -8,5 +8,5 @@ import { User } from '@app/models/User';
   styleUrl: './user-list.component.css'
 })
 export class UserListComponent {
-  @Input() user:User = new User('','', '', '', '','',new Date())
+
 }
