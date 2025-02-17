@@ -1,35 +1,70 @@
 <form class="w-full h-full flex justify-around items-center">
-  <select
-    name="place"
-    id="placeFilter"
-    class="w-3/12 h-10 border-2 p-2 rounded-md"
+  <label
+    for="categoryFilter"
+    class="flex flex-col w-3/12 gap-0.5"
   >
-    <option value="">Lugar</option>
-    <option value="sports">Deportes</option>
-    <option value="economy">Economia</option>
-    <option value="entertainment">Entretenimiento</option>
-    <option value="health">Salud</option>
-  </select>
-  <select
-    name="category"
-    id="categoryFilter"
-    class="w-3/12 h-10 border-2 p-2 rounded-md"
+    Categoría
+    <select
+      name="category"
+      id="categoryFilter"
+      class="w-full h-10 border-2 p-2 rounded-md"
+      (change)="onCategoryChange($event)"
+    >
+      <option value="">Todas</option>
+      @for(category of categories; track category.id){
+        <option
+          [selected]="(category.id === paramCategory)"
+          value="{{category.id}}"
+        >
+          {{category.categoria | titlecase}}
+        </option>
+      }
+    </select>
+  </label>
+  <label
+    for="placeFilter"
+    class="flex flex-col w-3/12 gap-0.5"
   >
-    <option value="">Categoria</option>
-    @for(category of categories; track category.id){
-      <option value="{{category.id}}">{{category.categoria}}</option>
-    }
-  </select>
-  <select
-    name="author"
-    id="authorFilter"
-    class="w-3/12 h-10 border-2 p-2 rounded-md"
+    Ubicación
+    <select
+      name="place"
+      id="placeFilter"
+      class="w-full h-10 border-2 p-2 rounded-md"
+      (change)="onLocationChange($event)"
+    >
+      <option value="">Todas</option>
+      @for(location of locations; track location){
+        <option
+          value="{{location}}"
+          [selected]="(location === paramLocation)"
+        >
+          {{location}}
+        </option>
+      }
+    </select>
+  </label>
+  <label
+    for="dateFilter"
+    class="flex flex-col w-3/12 gap-0.5"
   >
-    <option value="all">Autor</option>
-    <option value="author1">Autor 1</option>
-    <option value="author2">Autor 2</option>
-  </select>
-  <button class="w-1/12 h-10 border rounded-full text-white bg-primary cursor-pointer hover:bg-fourth" (click)="search($event)" [disabled]="!text">
+    Fecha
+    <select
+      name="date"
+      id="dateFilter"
+      class="w-full h-10 border-2 p-2 rounded-md"
+      (change)="applyDateFilter($event)"
+    >
+      @for(dateOption of dateOptions; track dateOption){
+        <option
+          value="{{dateOption}}"
+          [selected]="(dateOption === paramDate)"
+        >
+          {{dateOption}}
+        </option>
+      }
+    </select>
+  </label>
+  <button class="w-1/12 h-10 border rounded-full text-white bg-primary cursor-pointer hover:bg-fourth" [disabled]="!categorySelected">
     Filtrar
   </button>
 </form>
