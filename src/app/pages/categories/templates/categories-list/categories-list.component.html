@@ -1,1 +1,29 @@
-<p>categories-list works!</p>
+<div class="grid grid-cols-4 gap-6 h-full w-full mt-6 ml-6">
+    
+    <!-- Sección principal de categorías -->
+    <section class="col-span-3">
+        <!-- Contenedor flex para alinear "CATEGORIAS" y el botón -->
+        <div class="flex items-center gap-4 mb-4">
+            <h2 class="bg-gray-700 text-white font-bold py-2 px-6 rounded-full shadow-md ">CATEGORIAS</h2>
+
+        </div>
+        <!-- Contenedor para Título y Botón -->
+
+
+        <!-- Contenedor de las tarjetas -->
+        <div class="grid grid-cols-3 gap-4">
+            @for (item of updated_categories; track $index) { 
+
+                <app-category-card [var_id]="item.id" [var_categoria]="item.categoria" [var_suscribe]="item.is_suscribed"  (suscribeCategory)="onCheckboxChange($event)"></app-category-card>
+            }
+        </div>
+    </section>
+
+    <!-- Aside (Imagen de propaganda) -->
+    <aside class="col-span-1 flex items-center justify-center bg-gray-100 p-4">
+        <span>Imagen de propaganda</span>
+    </aside>
+
+</div>
+
+
