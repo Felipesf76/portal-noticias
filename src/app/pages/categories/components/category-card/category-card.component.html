@@ -1,0 +1,19 @@
+<div class="w-48 bg-white shadow-md rounded-lg overflow-hidde hover:bg-gray-300">
+    
+    <!-- Imagen -->
+    <img src="assets/images/categories/{{var_category.id}}.png" alt="{{var_category.categoria}}" class="w-full h-24 object-cover">
+
+    <!-- Contenedor de texto y toggle -->
+    <div class="flex justify-between items-center p-3">
+        <span class="text-sm font-semibold text-gray-700">{{var_category.categoria}}</span>
+        <!-- Toggle Switch -->
+        <label class="relative inline-flex items-center cursor-pointer">
+            
+
+            <input type="checkbox" class="sr-only peer" (change)="onCheckboxChange($event)"  [checked]="var_suscribe">
+
+            <div class="w-10 h-5 bg-gray-300 peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-1 after:bg-white after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-red-500"></div>
+            
+        </label>
+    </div>
+</div>
