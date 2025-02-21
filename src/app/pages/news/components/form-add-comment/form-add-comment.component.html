@@ -9,7 +9,7 @@
     (input)="onChange($event)"
     placeholder="Escribe tu comentario"></textarea>
   <button
-    class="btn bg-primary text-white rounded-md p-2 w-24"
+    class="btn bg-primary text-white rounded-md p-2 w-24 cursor-pointer hover:bg-fourth disabled:cursor-auto disabled:bg-primary/40"
     [disabled]="!text"
     (click)="onSubmit()"
   >

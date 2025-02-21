@@ -9,15 +9,16 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [MatIconModule],
   templateUrl: './news-card.component.html',
   styleUrl: './news-card.component.css',
-
 })
 export class NewsCardComponent {
-  @Input() public varNews:News = new News("", "", "", "", "", "", "", 0, new Date('2024-11-01'), "", "")
+  @Input() public varNews: News = new News("", "", "", "", "", "", "", 0, new Date('2024-11-01'), "", "")
   @Input() public editNews: boolean = false
 
   private router = inject(Router)
 
   goToNews() {
-    this.router.navigate(['/news/fsdfd'])
+    console.log(this.varNews.id)
+
+    this.router.navigate([`/news/${this.varNews.id}`])
   }
 }

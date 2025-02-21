@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
   imports: [NewsCardComponent],
   templateUrl: './news-created.component.html',
   styleUrl: './news-created.component.css',
-  providers: []
+  providers: [NewsService]
 })
 export class NewsCreatedComponent implements OnInit, OnDestroy {
   public records_new: News[] = []
@@ -22,7 +22,7 @@ export class NewsCreatedComponent implements OnInit, OnDestroy {
   ){}
 
   ngOnInit(): void {
-    this.newsService.getNewsTest()
+    this.newsService.getNews()
     .pipe(takeUntil(this.destroy$))
     .subscribe(news => {
       this.records_new = news;

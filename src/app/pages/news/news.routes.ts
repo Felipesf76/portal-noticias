@@ -12,7 +12,7 @@ export const newsRoutes: Routes = [
     loadComponent: () => import('./templates/news-created/news-created.component').then(c => c.NewsCreatedComponent),
   },
   {
-    path: ':title',
+    path: ':id',
     loadComponent: () => import('./templates/news-detail/news-detail.component').then(c => c.NewsDetailComponent),
   }
 ];

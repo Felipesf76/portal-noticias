@@ -9,9 +9,7 @@ export class News {
         public url: string,
         public vistas: number,
         public fecha_creacion: Date,
-        public id_usuarios: string, 
+        public id_usuarios: string,
         public id_categorias: string
-    ){
-
-    }
+    ){ }
 }
