@@ -34,7 +34,16 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private categoryService: CategorieService,
     private filterService: FilterService
   ){
-    this.categories = this.categoryService.getCategories()
+
+    
+    this.categoryService.getCategories().subscribe({
+      next:  (info)  => {
+        this.categories = info
+      },
+      error: (error) => console.log("Error: ", error)
+    }
+  )
+
   }
 
   ngOnInit() {
