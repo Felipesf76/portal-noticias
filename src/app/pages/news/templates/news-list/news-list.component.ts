@@ -1,31 +1,19 @@
 import { Component } from '@angular/core';
-import { NewsService } from '@services/news.service';
+import { NewsService } from '@app/services/news.service';
 import { NewsCardComponent } from '@news/components/news-card/news-card.component';
-import { News } from '@app/models/News';
-import { NewsFiltersComponent } from '@news/components/news-filters/news-filters.component';
-import { SearchComponent } from '@news/components/search/search.component';
-import { CategorieService } from '@services/categories.service';
-import { Categories } from '@models/Categories';
+
 
 @Component({
   selector: 'app-news-list',
-  imports: [NewsCardComponent, NewsFiltersComponent, SearchComponent],
+  imports: [NewsCardComponent],
   templateUrl: './news-list.component.html',
   styleUrl: './news-list.component.css',
-  providers: [NewsService, CategorieService]
+  providers: [NewsService]
 })
 export class NewsListComponent {
-  public records_new: Array<News>
-  public categories: Categories[]
+  public records_new: Array<any>
 
-  constructor(private newsService: NewsService , private categoryService: CategorieService){
+  constructor(private newsService: NewsService){
     this.records_new = this.newsService.getNewsTest()
-    this.categories = this.categoryService.getCategories()
-  }
-
-
-  onSearch(text: string){
-    console.log(text)
-    //this.records_new = this.newsService.getNewsBySearch(text)
   }
 }
