@@ -27,7 +27,7 @@ export class LoginComponent {
       label: 'Contraseña',
       name: 'password',
       validators: [minimunLenghtValidator(6)],
-    },
+    }
   ];
   onFormSubmit(formValues: object): void {
     //TODO: Lógica para iniciar sesión

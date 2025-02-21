@@ -1,6 +1,6 @@
 export class Publicity{
     constructor(
-        public id:string, 
+        public id:string,
         public titulo:string,
         public url: string,
         public multimedia: string,
@@ -10,7 +10,7 @@ export class Publicity{
         public id_administrador: string
     )
     {
-        
+
     }
 
 }

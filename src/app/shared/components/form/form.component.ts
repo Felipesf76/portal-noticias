@@ -2,6 +2,7 @@ import { Component, Input, Output, OnInit, inject, EventEmitter } from '@angular
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { FormField } from './model/form.model';
 import { CommonModule } from '@angular/common';
+import { log } from 'console';
 
 @Component({
   selector: 'app-form',
@@ -33,6 +34,8 @@ export class FormComponent implements OnInit{
 
   onSubmit(): void {
     if (this.form.valid) {
+      console.log(this.form);
+
       const formValues = this.form.value;
       this.formSubmit.emit(formValues);
     } else {
