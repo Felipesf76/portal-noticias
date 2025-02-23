@@ -1,0 +1,17 @@
+<div class="flex justify-center items-center h-screen w-screen">
+  <input type="file" (change)="onFileChange($event)">
+  {{file}}
+  @if(file) {
+    <div>
+      <p>Nombre del archivo: {{ file.name }}</p>
+      <p>Tamaño del archivo: {{ file.size }} bytes</p>
+      <p>Tipo MIME: {{ file.type }}</p>
+      @if(true) {
+        <img [src]="previewUrl" alt="Vista previa">
+      }
+      @if(isVideo) {
+        <video [src]="previewUrl" controls></video>
+      }
+    </div>
+  }
+</div>
