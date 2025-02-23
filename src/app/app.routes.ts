@@ -3,11 +3,16 @@ import { LoginComponent } from '@auth/components/login/login.component';
 import { RegisterComponent } from '@auth/components/register/register.component';
 import { CategoriesListComponent } from './pages/categories/templates/categories-list/categories-list.component';
 import { PublicityListComponent } from './pages/publicity/templates/publicity-list/publicity-list.component';
+import { PruebaComponent } from './shared/components/prueba/prueba.component';
 //import { NewsCardComponent } from './pages/news/components/news-card/news-card.component';
 
 export const routes: Routes = [
   // Public routes
   //{path: 'news', component: NewsCardComponent},
+  {
+    path: 'prueba',
+    component: PruebaComponent
+  },
   {
     path: 'news',
     loadChildren: () => import('@news/news.routes').then(m => m.NewsModule)

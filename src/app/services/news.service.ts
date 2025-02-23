@@ -7,7 +7,6 @@ export var baseUrl = "http://147.93.114.243/api"
 
 @Injectable()
 export class NewsService {
-  //private baseUrl = 'http://localhost'
   constructor(
     private http: HttpClient
   ) { }
@@ -18,6 +17,10 @@ export class NewsService {
 
   getOneNews(id: string): Observable<News> {
     return this.http.get<News>(`${baseUrl}/news/${id}`)
+  }
+
+  createNews(news: FormData): Observable<string> {
+    return this.http.post<string>(`${baseUrl}/news`, news)
   }
 
 

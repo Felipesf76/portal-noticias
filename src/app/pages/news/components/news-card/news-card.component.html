@@ -1,9 +1,9 @@
-<section class="w-full h-64 grid grid-cols-4 grid-rows-4 py-11 px-10 gap-1 hover:bg-fourth/20 cursor-pointer border-b">
+<section class="w-full h-64 grid grid-cols-4 grid-rows-4 py-11 px-10 gap-1  cursor-pointer border-b">
   <div class="col-span-1 col-start-1 row-span-4 p-1.5" (click)="goToNews()">
     <img src='' alt="Imagen de noticia">
   </div>
   <div class="col-span-4 col-start-2 row-span-1 row-start-1 text-start text-2xl font-bold flex justify-between">
-    <h1 class="text-2xl font-bold">
+    <h1 class="text-2xl font-bold line-clamp-1">
       {{ varNews.titulo }}
     </h1>
     @if(editNews){
@@ -11,7 +11,9 @@
         <button class="border-2 border-primary rounded-md w-8 h-8 hover:bg-fourth cursor-pointer">
           <mat-icon>delete</mat-icon>
         </button>
-        <button class="border-2 border-primary rounded-md w-8 h-8 hover:bg-blue-400 cursor-pointer">
+        <button class="border-2 border-primary rounded-md w-8 h-8 hover:bg-blue-400 cursor-pointer"
+          (click)="openEditNewsModal()"
+        >
           <mat-icon>edit</mat-icon>
         </button>
       </div>

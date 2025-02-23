@@ -4,13 +4,29 @@
       <h1 class="text-4xl font-bold text-primary">
         Mis noticias
       </h1>
-      <button class="w-36 h-12 rounded-full bg-primary text-white mt-10 cursor-pointer">
+      <button
+        class="w-36 h-12 rounded-full bg-primary text-white mt-10 cursor-pointer"
+        (click)="modalCreateOpen()"
+      >
         Crear noticia
       </button>
     </section>
-      @for (news of records_new; track news.id) {
-        <app-news-card class="w-full h-full" [varNews]="news" [editNews]="true"></app-news-card>
-      }
+    @for (news of records_new; track news.id) {
+      <app-news-card
+        class="w-full h-full"
+        [varNews]="news"
+        [editNews]="true"
+        (editNewsModal)="onEditNewsModal($event)"
+      ></app-news-card>
+    }
+    <dialog #myModal>
+      <app-modal-form
+        [newsEdit]="newsInfo"
+        [categoriesList]="categoriesList"
+        (formValues)="handleNewsCreated($event)"
+        (closeModal)="onCloseModal()"
+      ></app-modal-form>
+    </dialog>
   </div>
   <aside class=" col-span-1 col-end-5 row-span-4 ">
     Imagen de propaganda

@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { News } from '@app/models/News';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,12 +13,15 @@ import { MatIconModule } from '@angular/material/icon';
 export class NewsCardComponent {
   @Input() public varNews: News = new News("", "", "", "", "", "", "", 0, new Date('2024-11-01'), "", "")
   @Input() public editNews: boolean = false
+  @Output() editNewsModal = new EventEmitter<string>()
 
   private router = inject(Router)
 
   goToNews() {
-    console.log(this.varNews.id)
-
     this.router.navigate([`/news/${this.varNews.id}`])
+  }
+
+  openEditNewsModal() {
+    this.editNewsModal.emit(this.varNews.id)
   }
 }
