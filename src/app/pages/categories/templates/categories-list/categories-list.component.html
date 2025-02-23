@@ -12,11 +12,27 @@
 
         <!-- Contenedor de las tarjetas -->
         <div class="grid grid-cols-3 gap-4">
-            @for (item of updated_categories; track $index) { 
-
-                <app-category-card [var_id]="item.id" [var_categoria]="item.categoria" [var_suscribe]="item.is_suscribed"  (suscribeCategory)="onCheckboxChange($event)"></app-category-card>
+            @if (updated_categories.length > 0) {
+              @for (item of updated_categories; track item.id) {
+                <app-category-card 
+                  [var_id]="item.id" 
+                  [var_categoria]="item.categoria" 
+                  [var_suscribe]="item.is_suscribed"  
+                  (suscribeCategory)="onCheckboxChange($event)">
+                </app-category-card>
+              }
+            } @else {
+              @for (item of records_categories; track item.id) {
+                <app-category-card 
+                  [var_id]="item.id" 
+                  [var_categoria]="item.categoria" 
+                  [var_suscribe]="item.is_suscribed"  
+                  (suscribeCategory)="onCheckboxChange($event)">
+                </app-category-card>
+              }
             }
-        </div>
+          </div>
+          
     </section>
 
     <!-- Aside (Imagen de propaganda) -->
