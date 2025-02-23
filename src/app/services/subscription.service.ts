@@ -15,20 +15,19 @@ export class SubscriptionService {
 
   }
   
-  getSuscription(): Observable<any>{
+  getSubscription(): Observable<any>{
     return this.http.get(urlRecord+'subscriptions')
   }
 
-  getSuscriptionByUser(id_user:string): Observable<any>{
+  getSubscriptionByUser(id_user:string): Observable<any>{
     return this.http.get(urlRecord+'subscriptions'+"/"+id_user)
   }  
  
+  deleteSubscription(id_categoria: string, id_usuarios: string): Observable<any> {
+    return this.http.delete(urlRecord+'subscriptions', { body: { id_categoria, id_usuarios } });
+  }
 
-  // getSuscriptionByUser(id_user:string): Array<Suscription>{
-  //   console.log(id_user)
-  //   return [
-  //       new Suscription('2537a549-0968-4d00-9a98-f8f23e60e3c2', '21724ca9-6ae6-4e74-b6fc-b3397b032cd6'),
-  //       new Suscription('375290d0-85ef-42af-b5a3-2a2b1b63bf5a', '5d191a83-99cc-4cb0-8e33-ee825335c789'),
-  //   ]
-  // }
+  createSubscription(id_categoria:string, id_usuarios:string):Observable<any>{
+    return this.http.post(urlRecord+'subscriptions', {id_categoria, id_usuarios})
+  }
 }

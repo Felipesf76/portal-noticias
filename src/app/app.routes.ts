@@ -5,6 +5,8 @@ import { CategoriesListComponent } from './pages/categories/templates/categories
 import { PublicityListComponent } from './pages/publicity/templates/publicity-list/publicity-list.component';
 import { PruebaComponent } from './shared/components/prueba/prueba.component';
 //import { NewsCardComponent } from './pages/news/components/news-card/news-card.component';
+import { UserListComponent } from './pages/user/templates/user-list/user-list.component';
+import { MyProfileComponent } from './pages/user/templates/user-myprofile/user-myprofile.component';
 
 export const routes: Routes = [
   // Public routes
@@ -32,6 +34,14 @@ export const routes: Routes = [
   {
     path: 'publicity',
     component: PublicityListComponent
+  },
+  {
+    path: 'user',
+    component: UserListComponent
+  },
+  {
+    path: 'myprofile',
+    component: MyProfileComponent
   }
 
 ];

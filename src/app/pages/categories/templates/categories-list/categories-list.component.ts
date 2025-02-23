@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { CategorieService } from '@app/services/categories.service';
 import { CategoryCardComponent } from '../../components/category-card/category-card.component';
 import { Categories } from '@app/models/Categories';
 import { CommonModule } from '@angular/common';
 import { SubscriptionService } from '@app/services/subscription.service';
-
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-categories-list',
@@ -13,13 +13,13 @@ import { SubscriptionService } from '@app/services/subscription.service';
   styleUrl: './categories-list.component.css',
   providers: [CategorieService, SubscriptionService]
 })
-export class CategoriesListComponent {
+export class CategoriesListComponent implements OnInit{
   records_categories: Array<any> = []
   records_suscription_user:Array<any>=[]
   public updated_categories: Array<any> = []
 
 
-  public id_user= "375290d0-85ef-42af-b5a3-2a2b1b63bf5a"
+  public id_user: string | null = null;
 
   constructor(
     private categoryService: CategorieService,
@@ -27,44 +27,71 @@ export class CategoriesListComponent {
 
   )
   {
-      this.categoryService.getCategories().subscribe({
-        next:  (info)  => {
-          this.records_categories = info
-        },
-        error: (error) => console.log("Error: ", error)
-      }
-    )
-    
-    //this.records_suscription_user = this.suscriptionService.getSuscriptionByUser(this.id_user)
-      this.subscriptionService.getSuscriptionByUser(this.id_user).subscribe({
-        next: (info) => {
-          this.records_suscription_user = info
-        }
-      })
+   
+  }
+  ngOnInit(): void {
+    if (typeof window !== 'undefined') {
+      this.id_user = sessionStorage.getItem('user_id');
+    }
+    this.loadData();
+  }
+      /**
+   * Carga los datos de categorías y suscripciones en paralelo y actualiza la lista de categorías
+   */
+  private loadData(): void {
+    if (!this.id_user) {
+      console.log("El id de usuario no debe ser nulo");
+      return;
+    }
 
-    this.updateCategoriesWithSubscription()
+    // Ejecutar ambas peticiones en paralelo y esperar sus respuestas
+    forkJoin({
+      categories: this.categoryService.getCategories(),
+      subscriptions: this.subscriptionService.getSubscriptionByUser(this.id_user)
+    }).subscribe({
+      next: ({ categories, subscriptions }) => {
+        console.log("Datos de categorías recibidos:", categories);
+        console.log("Datos de suscripciones recibidos:", subscriptions);
 
+        this.records_categories = categories;
+        this.records_suscription_user = subscriptions;
+
+        // Actualizar las categorías con la información de suscripción
+        this.updateCategoriesWithSubscription();
+      },
+      error: (error) => console.error("Error al cargar datos:", error)
+    });
   }
   
   onCheckboxChange(event: { checked: boolean; categoria: Categories }) {
     if (event.checked) {
-      this.suscribirCategorias(event.categoria);
+      this.subscribirCategorias(event.categoria);
     } else {
       this.anularCategoria(event.categoria);
     }
   }
 
-  suscribirCategorias(var_category:Categories):void{
-    console.log("suscribe: ", var_category.categoria)
+  subscribirCategorias(var_category:Categories):void{
+    if (this.id_user){
+      this.subscriptionService.createSubscription(var_category.id, this.id_user).subscribe({
+        next: (response) => console.log('Suscripción creada:', response),
+        error: (error) => console.error('Error creando suscripción:', error)
+      })
+    }
   }
 
   anularCategoria(var_category:Categories):void{
-    console.log("anular suscripcion de: ", var_category.categoria)
+    if (this.id_user){
+      this.subscriptionService.deleteSubscription(var_category.id, this.id_user).subscribe({
+        next: (response) => console.log('Suscripción eliminada:', response),
+        error: (error) => console.error('Error al eliminar suscripción:', error)
+      })
+    }
   }
 
 
-  updateCategoriesWithSubscription(): void {
-    // Creamos un Set con los ID de categorías suscritas para búsquedas rápidas
+  private updateCategoriesWithSubscription(): void {
+    // Creamos un Set con los ID de categorías suscritas para búsqueda rápida
     const subscribedIds = new Set(this.records_suscription_user.map(sub => sub.id_categorias));
 
     // Generamos un nuevo array de categorías con la propiedad "is_suscribed"
@@ -73,7 +100,7 @@ export class CategoriesListComponent {
       is_suscribed: subscribedIds.has(category.id)
     }));
 
-    console.log(this.updated_categories)
-  }
+    console.log("Categorías actualizadas:", this.updated_categories);
+  }  
 
 }

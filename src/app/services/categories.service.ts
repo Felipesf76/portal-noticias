@@ -18,5 +18,5 @@ export class CategorieService {
     return  this.http.get(urlRecord+'categories')
   }
 
-
+  
 }

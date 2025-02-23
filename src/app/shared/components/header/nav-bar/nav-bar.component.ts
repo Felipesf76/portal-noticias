@@ -22,6 +22,14 @@ export class NavBarComponent {
     {
       title: 'Registrarse',
       link: '/register'
+    },
+    {
+      title: 'Publicidad',
+      link: '/publicity'
+    },
+    {
+      title: 'Categorías',
+      link: '/categories'
     }
     ];
   }

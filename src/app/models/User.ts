@@ -9,3 +9,8 @@ export class User {
     public fecha_nacimiento: Date
   ) {}
 }
+
+export interface FormValuesLogin {
+  name: string;
+  password: string
+}

@@ -1,12 +1,22 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable} from '@angular/core';
 import { User } from '@app/models/User';
+import { Observable } from 'rxjs';
 
+export var urlRecord = "http://147.93.114.243/api/"
 
 @Injectable()
 export class UserService {
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
   
+  login (mail: string, password:string): Observable<any>{
+    const loginData = { correo: mail, contrasena: password };
+    return this.http.post(urlRecord+'login', loginData)
+  }
+
   getUsers(): Array<User>{
     return  [
         new User('2537a549-0968-4d00-9a98-f8f23e60e3c2','juan.perez@example.com', 'password123', 'juanperez', 'Juan Pérez', 'M', new Date('1988-04-15')),
