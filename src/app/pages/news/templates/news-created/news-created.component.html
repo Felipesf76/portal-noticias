@@ -17,6 +17,7 @@
         [varNews]="news"
         [editNews]="true"
         (editNewsModal)="onEditNewsModal($event)"
+        (deleteNewsModal)="handleDeleteNewsModal($event)"
       ></app-news-card>
     }
     <dialog #myModal>
@@ -25,7 +26,38 @@
         [categoriesList]="categoriesList"
         (formValues)="handleNewsCreated($event)"
         (closeModal)="onCloseModal()"
+        (formValuesEdit)="handleEditNews($event)"
       ></app-modal-form>
+    </dialog>
+    <dialog #myModalDelete>
+      <div class="fixed inset-0 bg-grey/40 bg-opacity-50 flex justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-1/3 relative">
+          <header class="flex flex-col w-full justify-center items-center mb-4">
+            <mat-icon
+              class="w-16 h-16 text-red-500"
+              aria-hidden="false"
+              fontIcon="warning"
+              ></mat-icon>
+            <h2 class="text-xl font-bold text-gray-700">
+              ¿Esta seguro que desea eliminar el registro?
+            </h2>
+          </header>
+          <footer class="flex w-full justify-center items-center gap-8">
+            <button
+              class="w-1/4 h-12 rounded-lg bg-fourth text-white mt-10 cursor-pointer"
+              (click)="myModalDelete.close()"
+            >
+              Cancelar
+            </button>
+            <button
+              class="w-1/4 h-12 rounded-lg bg-primary text-white mt-10 cursor-pointer"
+              (click)="DeleteNews()"
+            >
+              Confirmar
+            </button>
+          </footer>
+        </div>
+      </div>
     </dialog>
   </div>
   <aside class=" col-span-1 col-end-5 row-span-4 ">

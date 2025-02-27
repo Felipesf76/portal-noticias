@@ -24,24 +24,36 @@ export class ModalFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateCategories()
-    this.initializeForm()
+    //this.initializeForm()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['newsEdit'] || changes['categoriesList']) {
-      this.initializeForm();
+      this.initializeForm(true);
     }
   }
 
-  private initializeForm(): void {
-    this.createNewsForm = new FormGroup({
-      titulo: new FormControl(this.newsEdit?.titulo || '', [Validators.required, Validators.minLength(10)]),
-      descripcion: new FormControl(this.newsEdit?.descripcion || '', [Validators.required, Validators.minLength(100)]),
-      categoria: new FormControl('', Validators.required),
-      pais: new FormControl(this.newsEdit?.pais || '', Validators.required),
-      fuente: new FormControl(this.newsEdit?.url || '', Validators.required),
-      multimedia: new FormControl('', Validators.required)
-    });
+  private initializeForm(isEdit: boolean): void {
+    if (isEdit) {
+      this.createNewsForm = new FormGroup({
+        titulo: new FormControl(this.newsEdit?.titulo || ''),
+        descripcion: new FormControl(this.newsEdit?.descripcion || ''),
+        categoria: new FormControl(''),
+        pais: new FormControl(this.newsEdit?.pais || ''),
+        fuente: new FormControl(this.newsEdit?.url || ''),
+        multimedia: new FormControl('')
+      });
+    } else {
+      this.createNewsForm = new FormGroup({
+        titulo: new FormControl('', [Validators.required, Validators.minLength(10)]),
+        descripcion: new FormControl('', [Validators.required, Validators.minLength(100)]),
+        categoria: new FormControl(''),
+        pais: new FormControl('', Validators.required),
+        fuente: new FormControl('', Validators.required),
+        multimedia: new FormControl('')
+      });
+    }
+
   }
 
   private updateCategories():void {
@@ -49,7 +61,7 @@ export class ModalFormComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0]; // Obtiene el archivo seleccionado
+    this.selectedFile = event.target.files[0];
   }
   onSubmit(event: Event) {
     event.preventDefault();
@@ -64,13 +76,20 @@ export class ModalFormComponent implements OnInit {
     if (this.selectedFile) {
     formData.append('multimedia', this.selectedFile, this.selectedFile?.name);
     }
-    console.log(formData.values);
 
-    // if(this.newsEdit.id){
-    //   this.formValuesEdit.emit(formData);
-    // }else {
+    console.log('titulo', formData.get('titulo'))
+    console.log('descripcion', formData.get('descripcion'))
+    console.log('id_categorias', formData.get('id_categorias'))
+    console.log('pais', formData.get('pais'))
+    console.log('url', formData.get('url'))
+    console.log('multimedia', formData.get('multimedia'))
+
+
+    if(this.newsEdit.id){
+      this.formValuesEdit.emit(formData);
+    }else {
       this.formValues.emit(formData);
-
+    }
   }
   // Método para cerrar el modal
   onClose() {

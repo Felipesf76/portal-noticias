@@ -14,6 +14,7 @@ export class NewsCardComponent {
   @Input() public varNews: News = new News("", "", "", "", "", "", "", 0, new Date('2024-11-01'), "", "")
   @Input() public editNews: boolean = false
   @Output() editNewsModal = new EventEmitter<string>()
+  @Output() deleteNewsModal = new EventEmitter<string>()
 
   private router = inject(Router)
 
@@ -23,5 +24,8 @@ export class NewsCardComponent {
 
   openEditNewsModal() {
     this.editNewsModal.emit(this.varNews.id)
+  }
+  openDeleteNewsModal(){
+    this.deleteNewsModal.emit(this.varNews.id)
   }
 }

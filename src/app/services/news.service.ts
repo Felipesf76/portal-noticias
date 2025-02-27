@@ -19,21 +19,19 @@ export class NewsService {
     return this.http.get<News>(`${baseUrl}/news/${id}`)
   }
 
+  getNewsByUser(userId: string): Observable<News[]> {
+    return this.http.get<News[]>(`${baseUrl}/news/user/${userId}`)
+  }
+
   createNews(news: FormData): Observable<string> {
     return this.http.post<string>(`${baseUrl}/news`, news)
   }
 
+  updateNews(newsId: string, news: FormData): Observable<string> {
+    return this.http.put<string>(`${baseUrl}/news/${newsId}`, news)
+  }
 
-  // getNewsById(id: number) {
-  //   return this.http.get(`${this.baseUrl}/api/news/${id}`)
-  // }
-  // createNews(news: any) {
-  //   return this.http.post(`${this.baseUrl}/api/news`, news)
-  // }
-  // updateNews(news: any) {
-  //   return this.http.put(`${this.baseUrl}/api/news`, news)
-  // }
-  // deleteNews(id: number) {
-  //   return this.http.delete(`${this.baseUrl}/api/news/${id}`)
-  // }
+  deleteNews(newsId: string): Observable<string> {
+    return this.http.delete<string>(`${baseUrl}/news/${newsId}`)
+  }
 }
