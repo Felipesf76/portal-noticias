@@ -7,40 +7,63 @@ import { PruebaComponent } from './shared/components/prueba/prueba.component';
 //import { NewsCardComponent } from './pages/news/components/news-card/news-card.component';
 import { UserListComponent } from './pages/user/templates/user-list/user-list.component';
 import { MyProfileComponent } from './pages/user/templates/user-myprofile/user-myprofile.component';
+import { NewsListComponent } from './pages/news/templates/news-list/news-list.component';
+import { NewsCreatedComponent } from './pages/news/templates/news-created/news-created.component';
+import { NewsDetailComponent } from './pages/news/templates/news-detail/news-detail.component';
+import { AuthGuard } from '@auth/guards/auth.guard';
 
 export const routes: Routes = [
   // Public routes
   //{path: 'news', component: NewsCardComponent},
   {
-    path: 'prueba',
-    component: PruebaComponent
-  },
-  {
-    path: 'news',
-    loadChildren: () => import('@news/news.routes').then(m => m.NewsModule)
-  },
-  {
-    path: 'login',
+    path: '',
     component: LoginComponent
   },
   {
     path: 'register',
     component: RegisterComponent
   },
+
+  {
+    path: 'prueba',
+    component: PruebaComponent
+  },
+  {
+    path: 'news',
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: NewsListComponent,
+      },
+      {
+        path: 'created',
+        component: NewsCreatedComponent,
+      },
+      {
+        path: ':id',
+        component: NewsDetailComponent,
+      }
+    ]
+  },
   {
     path: 'categories',
+    canActivate: [AuthGuard],
     component: CategoriesListComponent
   },
   {
     path: 'publicity',
+    canActivate: [AuthGuard],
     component: PublicityListComponent
   },
   {
     path: 'user',
+    canActivate: [AuthGuard],
     component: UserListComponent
   },
   {
     path: 'myprofile',
+    canActivate: [AuthGuard],
     component: MyProfileComponent
   }
 

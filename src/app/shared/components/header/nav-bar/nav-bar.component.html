@@ -1,12 +1,28 @@
 <nav>
   <ul class="flex justify-end h-full w-full gap-10">
-    @for ( item of list; track item.title) {
-      <!-- // TODO: Fix the Active link -->
+    @if (userLogged) {
       <li [routerLinkActive]="['text-fourth']">
-        <a [routerLink]=[item.link] class="text-secundary hover:text-fourth">
-          {{item.title}}
+        <a [routerLink]="['/news']" class="text-secundary hover:text-fourth">
+          Noticias
+        </a>
+      </li>
+      <li [routerLinkActive]="['text-fourth']">
+        <a [routerLink]="['/categories']" class="text-secundary hover:text-fourth">
+          Categorías
+        </a>
+      </li>
+    } @else {
+      <li [routerLinkActive]="['text-fourth']">
+        <a [routerLink]="['/']" class="text-secundary hover:text-fourth">
+          Iniciar sesión
+        </a>
+      </li>
+      <li [routerLinkActive]="['text-fourth']">
+        <a [routerLink]="['/register']" class="text-secundary hover:text-fourth">
+          Registrarse
         </a>
       </li>
     }
+
   </ul>
 </nav>
