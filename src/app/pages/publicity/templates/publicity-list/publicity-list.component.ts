@@ -11,12 +11,15 @@ import { Publicity } from '@app/models/Publicity';
   providers: [PublicityService]
 })
 export class PublicityListComponent {
-  public record_publicity: Array<any>
+  public record_publicity: Array<any> = []
 
   constructor(
     private publicityService: PublicityService
   ){
-    this.record_publicity = this.publicityService.getPublicity()
+    this.publicityService.getPublicity().subscribe({
+      next: (response) => this.record_publicity = response,
+      error: (error) => console.error("Error al cargar datos:", error)
+    })
   }
 
   public createPublicity(new_publicity: Array<any>):void{
@@ -28,7 +31,10 @@ export class PublicityListComponent {
   }
 
   public deletePublicity(item: Publicity):void{
-    console.log("Eliminando Publicidad: ", item.titulo)
+    this.publicityService.deletePublicity(item.id).subscribe({
+      next: (response) => console.log("delete exitoso: ", response),
+      error: (error) => console.error("Error al cargar datos:", error)
+    })
   }
 
   // public onFileSelected(image: File):void{
