@@ -4,9 +4,7 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { CreateUser } from '@app/models/User';
 import { UserService } from '@app/services/user.service';
-import { passwordMatchValidator } from '@app/shared/components/form/form.validators';
-import { FormComponent } from '@shared/components/form/form.component';
-import { FormField } from '@shared/components/form/model/form.model';
+import { dateAfterValidator, passwordMatchValidator, passwordValidator } from '@app/shared/components/form/form.validators';
 
 @Component({
   selector: 'app-register',
@@ -26,13 +24,13 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit(): void {
       this.createUserForm = new FormGroup({
-              nombre_usuario: new FormControl('', [Validators.required, Validators.minLength(4)]),
+              nombre_usuario: new FormControl('', [Validators.required, Validators.minLength(5)]),
               nombre_completo: new FormControl('', [Validators.required, Validators.minLength(4)]),
               correo: new FormControl('', [Validators.required, Validators.email]),
-              sexo: new FormControl(''),
-              fecha_nacimiento: new FormControl(''),
-              contrasena: new FormControl('', [Validators.required, Validators.minLength(10)]),
-              repeatContrasena: new FormControl('', [Validators.required, Validators.minLength(10)])
+              sexo: new FormControl('', [Validators.required]),
+              fecha_nacimiento: new FormControl('', [dateAfterValidator, Validators.required]),
+              contrasena: new FormControl('', [Validators.required, passwordValidator]),
+              repeatContrasena: new FormControl('', [Validators.required])
             },
             {
               validators: passwordMatchValidator
@@ -64,7 +62,7 @@ export class RegisterComponent implements OnInit {
       this.userService.createUser(formValues).subscribe(
         (response) => {
           console.log(response);
-          this.router.navigate(['/l']);
+          this.router.navigate(['/']);
         }
       )
     }
