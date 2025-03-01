@@ -63,6 +63,7 @@ export class ModalFormComponent implements OnInit {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
+
   onSubmit(event: Event) {
     event.preventDefault();
     let formData = new FormData();

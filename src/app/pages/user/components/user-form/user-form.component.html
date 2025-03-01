@@ -1,0 +1,160 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-2/3 relative">
+
+    <header class="flex w-full justify-between items-center mb-4">
+      <h2 class="text-xl font-bold text-gray-700">Usuario</h2>
+      <button
+        class=" text-red-500 hover:text-red-700 cursor-pointer"
+        (click)="onClose()"
+      >
+          ❌
+      </button>
+    </header>
+
+    <form [formGroup]="createUserForm" (ngSubmit)="onSubmit($event)" >
+        <label
+          class="block text-sm font-medium text-gray-700"
+        >
+          Correo Electrónico
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="w-full p-2 border rounded-md mb-3"
+          placeholder="example@gmail.com"
+          formControlName="correo"
+        />
+        <div *ngIf="createUserForm.get('email')?.invalid && createUserForm.get('email')?.touched">
+          <div *ngIf="createUserForm.get('email')?.errors?.['required']"
+            class="text-red-500 text-sm"
+          >
+            El correo es requerido.
+          </div>
+          <div *ngIf="createUserForm.get('email')?.errors?.['minlength']"
+            class="text-red-500 text-sm"
+          >
+            El título debe tener al menos 10 caracteres.
+          </div>
+        </div>
+        <!-- URL -->
+        <label
+          class="block text-sm font-medium text-gray-700"
+        >
+          Nombre de Usuario
+        </label>
+        <input
+          type="text"
+          name="nombre_usuario"
+          class="w-full p-2 border rounded-md mb-3"
+          placeholder="Ingrese el nombre de usuario"
+          formControlName="nombre_usuario"
+        >
+        <div *ngIf="createUserForm.get('nombre_usuario')?.invalid && createUserForm.get('nombre_usuario')?.touched">
+          <div *ngIf="createUserForm.get('nombre_usuario')?.errors?.['required']"
+          class="text-red-500 text-sm">
+            El nombre de usuario es requerido.
+          </div>
+          <div *ngIf="createUserForm.get('nombre_usuario')?.errors?.['minlength']"
+          class="text-red-500 text-sm">
+            El nombre de usuario debe tener al menos 100 caracteres.
+          </div>
+        </div>
+        <label
+          class="block text-sm font-medium text-gray-700"
+        >
+          Nombre Completo
+        </label>
+        <input
+          type="text"
+          name="nombre_completo"
+          class="w-full p-2 border rounded-md mb-3"
+          placeholder="Ingrese el nombre completo"
+          formControlName="nombre_completo"
+        >
+        <div *ngIf="createUserForm.get('nombre_completo')?.invalid && createUserForm.get('nombre_completo')?.touched">
+          <div *ngIf="createUserForm.get('nombre_completo')?.errors?.['required']"
+          class="text-red-500 text-sm">
+            El nombre completo es requerido.
+          </div>
+          <div *ngIf="createUserForm.get('nombre_completo')?.errors?.['minlength']"
+          class="text-red-500 text-sm">
+            El nombre completo debe tener al menos 3 caracteres.
+          </div>
+        </div>
+        <label
+          class="block text-sm font-medium text-gray-700"
+        >
+          Sexo
+        </label>
+        <select
+          name="genero"
+          id="genero"
+          class="w-full p-2 border rounded-md mb-3"
+          formControlName="sexo"
+          required
+        >
+          <option value="">Seleccione un genero</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+        </select>
+        <label
+          class="block text-sm font-medium text-gray-700"
+        >
+          Fecha de Nacimiento
+        </label>
+        <input
+          type="date"
+          id="fecha_nacimiento"
+          name="fecha_nacimiento"
+          class="w-full p-2 border rounded-md mb-3"
+          formControlName="fecha_nacimiento"
+        />
+        <div *ngIf="createUserForm.get('fecha_nacimiento')?.invalid && createUserForm.get('fecha_nacimiento')?.touched">
+          <div *ngIf="createUserForm.get('fecha_nacimiento')?.errors?.['required']"
+          class="text-red-500 text-sm">
+            La fecha es requerida.
+          </div>
+        </div>
+        <!-- Fecha Fin -->
+        <label class="block text-sm font-medium text-gray-700">
+          Contraseña
+        </label>
+        <input
+          type="password"
+          id="contraena"
+          name="contraena"
+          class="w-full p-2 border rounded-md mb-3"
+          placeholder="Ingrese la Contraseña"
+          formControlName="contrasena"
+        />
+        <div *ngIf="createUserForm.get('contrsena')?.invalid && createUserForm.get('contrsena')?.touched">
+          <div *ngIf="createUserForm.get('contrsena')?.errors?.['required']"
+          class="text-red-500 text-sm">
+            La contraseña es requerida.
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-center gap-20  mt-5">
+            <button
+              type="button"
+              class="bg-primary text-white px-4 py-2 rounded-md hover:bg-gray-700 cursor-pointer"
+              (click)="onClose()"
+            >
+              CANCELAR
+            </button>
+
+            <button
+                type="submit"
+                class="px-4 py-2 rounded-md text-white bg-fourth cursor-pointer disabled:bg-gray-400 disabled:cursor-auto"
+                [disabled]="!createUserForm.valid && userEdit"
+                >
+                GUARDAR
+            </button>
+
+        </div>
+    </form>
+
+  </div>
+</div>

@@ -11,12 +11,16 @@ import { User } from '@app/models/User';
   providers: [UserService]
 })
 export class UserListComponent {
-  public record_user: Array<any>
+  public record_user: User[] = [] as User[];
 
   constructor(
     private userService: UserService
   ){
-    this.record_user = this.userService.getUsers()
+    this.userService.getUsers().subscribe(
+      (response) => {
+        this.record_user = response;
+      }
+    )
   }
 
   public createUser(new_user: Array<any>):void{

@@ -1,8 +1,8 @@
 export class User {
   constructor(
     public id: string,
-    public corre: string,
-    public password: string,
+    public correo: string,
+    public contrasena: string,
     public nombre_usuario: string,
     public nombre_completo: string,
     public sexo: string,
@@ -10,7 +10,21 @@ export class User {
   ) {}
 }
 
+export interface CreateUser {
+  nombre_usuario: string,
+  nombre_completo: string,
+  correo: string,
+  sexo: string,
+  fecha_nacimiento: Date,
+  contrasena: string
+}
+
 export interface FormValuesLogin {
-  name: string;
-  password: string
+  correo: string;
+  contrasena: string
+}
+
+export interface SessionInfo {
+  token: string,
+  user: User
 }

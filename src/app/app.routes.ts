@@ -57,12 +57,12 @@ export const routes: Routes = [
     component: PublicityListComponent
   },
   {
-    path: 'user',
+    path: 'users',
     canActivate: [AuthGuard],
     component: UserListComponent
   },
   {
-    path: 'myprofile',
+    path: 'profile',
     canActivate: [AuthGuard],
     component: MyProfileComponent
   }
