@@ -11,8 +11,7 @@ import { FormValuesLogin } from '@app/models/User';
   selector: 'app-login',
   imports: [FormComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
-  providers: [UserService]
+  styleUrl: './login.component.css'
 })
 export class LoginComponent {
   title = '';
@@ -20,7 +19,7 @@ export class LoginComponent {
   constructor(
     private userService: UserService,
     private router: Router
-  ) 
+  )
   {
     this.title = 'Iniciar Sesión';
 
@@ -29,13 +28,13 @@ export class LoginComponent {
     {
       type: 'text',
       label: 'Usuario o Correo electrónico',
-      name: 'name',
+      name: 'correo',
       validators: [isEmptyValidator],
     },
     {
       type: 'password',
       label: 'Contraseña',
-      name: 'password',
+      name: 'contrasena',
       validators: [minimunLenghtValidator(6)],
     }
   ];
@@ -43,18 +42,18 @@ export class LoginComponent {
   onFormSubmit(formValues: FormValuesLogin): void {
 
     // Llamar al servicio login y suscribirse a la respuesta
-    this.userService.login(formValues.name, formValues.password).subscribe({
+    this.userService.login(formValues.correo, formValues.contrasena).subscribe({
       next: (response) => {
         console.log('Login Success:', response);
-        
-        // Almacenar token en sessionStorage y user_id
-        if (typeof window !== 'undefined' && window.sessionStorage) {
-          sessionStorage.setItem('auth_token', response.token);
-          sessionStorage.setItem('user_id', response.user.id);
-        }
-        // Redirigir a otra página después del login exitoso
-        this.router.navigate(['/news']);
 
+        // // Almacenar token en sessionStorage y user_id
+        // if (typeof window !== 'undefined' && window.sessionStorage) {
+        //   sessionStorage.setItem('auth_token', response.token);
+        //   sessionStorage.setItem('user_id', response.user.id);
+        // }
+        if (this.userService.isLoggedIn()) {
+          this.router.navigate(['/news']);
+        }
       },
       error: (error) => {
         console.error('Login Error:', error);

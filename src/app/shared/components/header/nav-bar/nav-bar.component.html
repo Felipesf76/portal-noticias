@@ -1,12 +1,67 @@
 <nav>
-  <ul class="flex justify-end h-full w-full gap-10">
-    @for ( item of list; track item.title) {
-      <!-- // TODO: Fix the Active link -->
-      <li [routerLinkActive]="['text-fourth']">
-        <a [routerLink]=[item.link] class="text-secundary hover:text-fourth">
-          {{item.title}}
-        </a>
-      </li>
-    }
+  <ul class="flex justify-end h-full w-full gap-10 items-center">
+    @if (userLogged()) {
+      <li class="relative">
+      <button (click)="toggleDropdown($event)" class="text-secundary hover:text-fourth cursor-pointer">
+        Noticias
+      </button>
+        @if(isDropdownOpen){
+          <ul class="absolute bg-white border rounded shadow-md mt-2 w-48 transition-all duration-300 ease-in-out">
+            <li>
+              <a
+                (click)="closeMenu()"
+                [routerLink]="['/news']"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+              >
+                Todas las Noticias
+              </a>
+            </li>
+            <li>
+              <a
+                (click)="closeMenu()"
+                [routerLink]="['/news/created']"
+                class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                >
+                  Mis Noticias
+                    </a>
+                  </li>
+                </ul>
+              }
+          </li>
+          <li [routerLinkActive]="['text-fourth']">
+            <a [routerLink]="['/categories']" class="text-secundary hover:text-fourth">
+              Categorías
+            </a>
+          </li>
+          <li [routerLinkActive]="['text-fourth']">
+            <a [routerLink]="['/publicity']" class="text-secundary hover:text-fourth">
+              Publicidad
+            </a>
+          </li>
+          <li [routerLinkActive]="['text-fourth']">
+            <a [routerLink]="['/users']" class="text-secundary hover:text-fourth">
+              Usuarios
+            </a>
+          </li>
+          <li>
+            <a
+              [routerLink]="['/profile']"
+            >
+              <img src="" alt="avatar" class="w-12 h-12 rounded-full bg-amber-200">
+            </a>
+          </li>
+        } @else {
+          <li [routerLinkActive]="['text-fourth']">
+            <a [routerLink]="['/']" class="text-secundary hover:text-fourth">
+              Iniciar sesión
+            </a>
+          </li>
+          <li [routerLinkActive]="['text-fourth']">
+            <a [routerLink]="['/register']" class="text-secundary hover:text-fourth">
+              Registrarse
+            </a>
+          </li>
+        }
+
   </ul>
 </nav>

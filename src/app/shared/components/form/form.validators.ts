@@ -18,3 +18,14 @@ export function minimunLenghtValidator(minimunLenght: number): ValidatorFn {
     return isValid ? null : { minimunLenght: { message: "El campo debe tener al menos " + minimunLenght + " caracteres" } }
   }
 }
+
+export const passwordMatchValidator: ValidatorFn = (formGroup: AbstractControl): ValidationErrors | null => {
+  const password = formGroup.get('contrasena')?.value;
+  const confirmPassword = formGroup.get('repeatContrasena')?.value;
+  // Si las contraseñas no coinciden, devuelve un error
+  if (password !== confirmPassword) {
+    return { passwordMismatch: true };
+  }
+  // Si coinciden, devuelve null (no hay error)
+  return null;
+};

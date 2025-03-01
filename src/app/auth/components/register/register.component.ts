@@ -1,60 +1,71 @@
-import { Component } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CreateUser } from '@app/models/User';
+import { UserService } from '@app/services/user.service';
+import { passwordMatchValidator } from '@app/shared/components/form/form.validators';
 import { FormComponent } from '@shared/components/form/form.component';
 import { FormField } from '@shared/components/form/model/form.model';
 
 @Component({
   selector: 'app-register',
-  imports: [FormComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent {
-  title = '';
-    constructor() {
+export class RegisterComponent implements OnInit {
+    title = '';
+    createUserForm: FormGroup = new FormGroup({});
+    constructor(
+      private userService: UserService,
+      private router: Router
+    ) {
       this.title = 'Registrarse';
     }
-    registerFields: FormField[] = [
-      {
-        type: 'text',
-        label: 'Nombre Completo',
-        name: 'fullName',
-        validators: [Validators.required],
-      },
-      {
-        type: 'text',
-        label: 'Usuario único',
-        name: 'userName',
-        validators: [Validators.required],
-      },
-      {
-        type: 'date',
-        label: 'Fecha de nacimiento',
-        name: 'birthDate',
-        validators: [Validators.required],
-      },
-      {
-        type: 'email',
-        label: 'Correo Electrónico',
-        name: 'email',
-        validators: [Validators.required],
-      },
-      {
-        type: 'password',
-        label: 'Contraseña',
-        name: 'password',
-        validators: [Validators.required, Validators.minLength(6)],
-      },
-      {
-        type: 'password',
-        label: 'Validar contraseña',
-        name: 'confirmPassword',
-        validators: [Validators.required, Validators.minLength(6)],
+
+    ngOnInit(): void {
+      this.createUserForm = new FormGroup({
+              nombre_usuario: new FormControl('', [Validators.required, Validators.minLength(4)]),
+              nombre_completo: new FormControl('', [Validators.required, Validators.minLength(4)]),
+              correo: new FormControl('', [Validators.required, Validators.email]),
+              sexo: new FormControl(''),
+              fecha_nacimiento: new FormControl(''),
+              contrasena: new FormControl('', [Validators.required, Validators.minLength(10)]),
+              repeatContrasena: new FormControl('', [Validators.required, Validators.minLength(10)])
+            },
+            {
+              validators: passwordMatchValidator
+            }
+          );
+    }
+
+    onFormSubmit(): void {
+      const createUserForm = this.createUserForm;
+      this.userService.createUser(createUserForm.value).subscribe(
+        (response) => {
+          console.log(response);
+        }
+      )
+    }
+
+    onSubmit(event: Event) {
+      event.preventDefault();
+      const formValues = {
+        nombre_usuario: this.createUserForm.get('nombre_usuario')?.value,
+        nombre_completo: this.createUserForm.get('nombre_completo')?.value,
+        correo: this.createUserForm.get('correo')?.value,
+        sexo: this.createUserForm.get('sexo')?.value,
+        fecha_nacimiento: this.createUserForm.get('fecha_nacimiento')?.value,
+        contrasena: this.createUserForm.get('contrasena')?.value
       }
-    ];
-    onFormSubmit(formValues: object): void {
-      //TODO: Lógica para registrarse
       console.log('Form Values in Parent:', formValues);
       // Aquí puedes hacer algo con los valores del formulario, como enviarlos a una API
+      this.userService.createUser(formValues).subscribe(
+        (response) => {
+          console.log(response);
+          this.router.navigate(['/l']);
+        }
+      )
     }
 }

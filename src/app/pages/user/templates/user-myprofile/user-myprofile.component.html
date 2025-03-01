@@ -9,47 +9,74 @@
       <div class="p-8 bg-white shadow-md rounded-lg">
 
         <div class="flex items-center mb-2">
-          <img 
-            src="https://randomuser.me/api/portraits/men/32.jpg" 
-            alt="Imagen de Usuario" 
+          <img
+            src="https://randomuser.me/api/portraits/men/32.jpg"
+            alt="Imagen de Usuario"
             class="w-24 h-24 rounded-full border-2 border-gray-300"
           />
         </div>
+        <table
+          class="table-auto w-full border-collapse gap-8 text-lg mb-12"
+        >
+          <tr>
+            <td>
+              <strong>
+                Nombre:
+              </strong>
+            </td>
+            <td>{{ userInfo.nombre_completo }}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                Correo Electrónico:
+              </strong>
+            </td>
+            <td>{{ userInfo.correo }}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                Usuario:
+              </strong>
+            </td>
+            <td>{{ userInfo.nombre_usuario }}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                Fecha Nacimiento:
+              </strong>
+            </td>
+            <td>{{ userInfo.fecha_nacimiento }}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                Sexo:
+              </strong>
+            </td>
+            <td>{{ userInfo.sexo }}</td>
+          </tr>
+        </table>
+
         <div class="flex items-center mb-2">
-          <label class="block font-medium text-gray-800 mr-4">Nombre:</label>
-          <p class="text-gray-900">{{ user.nombre_completo }}</p>
+          <button class="mt-4 px-6 py-2 bg-gray-500 text-white font-bold rounded-lg hover:bg-gray-800 mr-4 cursor-pointer">
+            <span>Cambiar contraseña</span>
+          </button>
+          <button
+
+            (click)="logout()"
+            class="flex justify-between items-center gap-1.5 bg-fourth mt-4 px-4 py-2  text-white font-bold rounded-lg hover:bg-red-500 cursor-pointer"
+          >
+            <span>Cerrar Sesión</span>
+            <i class="material-icons">
+              exit_to_app
+            </i>
+          </button>
         </div>
-      
-        <div class="flex items-center mb-2">
-          <label class="block font-medium text-gray-800 mr-4">Correo Electrónico:</label>
-          <p class="text-gray-900">{{ user.corre }}</p>
-        </div>
-      
-        <div class="flex items-center mb-2">
-          <label class="block font-medium text-gray-800 mr-4">Usuario:</label>
-          <p class="text-gray-900"> {{ user.nombre_usuario }}</p>
-        </div>
-      
-        <div class="flex items-center mb-2">
-          <label class="block font-medium text-gray-800 mr-4">Fecha Nacimiento:</label>
-          <p class="text-gray-900">{{ user.fecha_nacimiento }}</p>
-        </div>
-      
-        <div class="flex items-center mb-2">
-          <label class="block font-medium text-gray-800 mr-4">Sexo:</label>
-          <p class="text-gray-900">{{ user.sexo }}</p>
-        </div>
-      
-        <!-- Botón para actualizar la información -->
-        <button class="mt-4 px-6 py-2 bg-gray-500 text-white font-bold rounded-lg hover:bg-gray-800 mr-4 cursor-pointer">
-          <span>Cambiar contraseña</span>
-        </button>
-        <button routerLink="'/news'"  class="btn btn-primary mt-4 px-6 py-2 bg-red-400 text-white font-bold rounded-lg hover:bg-red-500 cursor-pointer" >
-          <span>Cerrar Sesión</span>
-          <i class="material-icons">exit_to_app</i>
-        </button>
       </div>
-      
+
     </section>
   </div>
   <aside class=" col-span-1 col-end-5 row-span-4 bg-blue-200">
