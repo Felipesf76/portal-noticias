@@ -7,8 +7,8 @@
       <span
         (click)="rate($index + 1)"
         [ngClass]="{
-          'text-yellow-400': $index < selectedRating,
-          'text-gray-400': $index >= selectedRating
+          'text-yellow-400': $index < rating,
+          'text-gray-400': $index >= rating
         }"
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -19,7 +19,8 @@
     <button
       type="button"
       (click)="onSubmit()"
-      class="w-30 h-10 rounded-full bg-primary text-white cursor-pointer hover:bg-fourth"
+      [disabled] = "rating == 0"
+      class="w-24 h-8 rounded-full bg-primary text-white cursor-pointer hover:bg-fourth disabled:cursor-auto disabled:bg-primary/40"
     >
       Calificar
     </button>

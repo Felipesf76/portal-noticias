@@ -14,7 +14,7 @@
       @for(category of categories; track category.id){
         <option
           [selected]="(category.id === paramCategory)"
-          value="{{category.id}}"
+          value="{{category.categoria}}"
         >
           {{category.categoria | titlecase}}
         </option>

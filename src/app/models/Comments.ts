@@ -9,5 +9,10 @@ export class Comments{
     {
 
     }
+}
 
+export interface CreateComment {
+  texto: string,
+  id_usuarios: string,
+  id_noticias: string
 }

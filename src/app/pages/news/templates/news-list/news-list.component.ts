@@ -15,11 +15,11 @@ import { combineLatest, Subject, takeUntil } from 'rxjs';
   imports: [NewsCardComponent, NewsFiltersComponent, SearchComponent],
   templateUrl: './news-list.component.html',
   styleUrl: './news-list.component.css',
-  providers: [CategorieService]
+  providers: [CategorieService, NewsService]
 })
 export class NewsListComponent implements OnInit, OnDestroy {
   public newsList: News[] = []
-  public categories: Categories[] = []
+  public categories: any = []
   public filteredNews: News[] = []
   public selectedCategory = ''
   public selectedDate = new Date()
@@ -34,21 +34,17 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private categoryService: CategorieService,
     private filterService: FilterService
   ){
-
-    
     this.categoryService.getCategories().subscribe({
       next:  (info)  => {
         this.categories = info
       },
       error: (error) => console.log("Error: ", error)
-    }
-  )
-
+    })
   }
 
   ngOnInit() {
     // Obtener las noticias del servicio
-    this.newsService.getNewsTest()
+    this.newsService.getNews()
     .pipe(takeUntil(this.destroy$))
     .subscribe(news => {
       this.newsList = news

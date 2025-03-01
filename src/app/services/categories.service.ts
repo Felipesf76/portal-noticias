@@ -10,7 +10,7 @@ export class CategorieService {
   constructor
   (
     private http: HttpClient
-  ) { 
+  ) {
 
   }
 
@@ -20,4 +20,3 @@ export class CategorieService {
 
   
 }
-

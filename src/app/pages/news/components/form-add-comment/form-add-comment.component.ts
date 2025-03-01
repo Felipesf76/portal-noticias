@@ -12,10 +12,15 @@ export class FormAddCommentComponent {
 
   onChange(event: any): void {
     this.text = event.target.value
-    console.log(this.text)
   }
 
   onSubmit(): void {
     this.textComment.emit(this.text)
+    const commentElement = document.getElementById('comment') as HTMLTextAreaElement;
+
+    if (commentElement) {
+      commentElement.value = '';
+    }
+    this.text = ''
   }
 }
