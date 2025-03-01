@@ -1,16 +1,15 @@
 <div class="flex justify-around items-center h-full w-full">
 
-
   <section class="flex flex-col w-1/2 h-full items-center justify-center">
     <h1
-      class="text-4xl font-bold text-primary mb-10"
+      class="text-4xl font-bold text-primary"
     >
       Registrarse
     </h1>
     <form
       [formGroup]="createUserForm"
       (ngSubmit)="onSubmit($event)"
-      class="w-3/4"
+      class="w-3/4 mt-5"
     >
       <label
         class="block text-sm font-medium text-gray-700"
@@ -25,16 +24,16 @@
         placeholder="example@gmail.com"
         formControlName="correo"
       />
-      <div *ngIf="createUserForm.get('email')?.invalid && createUserForm.get('email')?.touched">
-        <div *ngIf="createUserForm.get('email')?.errors?.['required']"
+      <div *ngIf="createUserForm.get('correo')?.invalid && createUserForm.get('correo')?.touched">
+        <div *ngIf="createUserForm.get('correo')?.errors?.['required']"
           class="text-red-500 text-sm"
         >
           El correo es requerido.
         </div>
-        <div *ngIf="createUserForm.get('email')?.errors?.['minlength']"
+        <div *ngIf="createUserForm.get('correo')?.errors?.['email']"
           class="text-red-500 text-sm"
         >
-          El título debe tener al menos 10 caracteres.
+          El formato no coincide.
         </div>
       </div>
       <!-- URL -->
@@ -57,7 +56,7 @@
         </div>
         <div *ngIf="createUserForm.get('nombre_usuario')?.errors?.['minlength']"
         class="text-red-500 text-sm">
-          El nombre de usuario debe tener al menos 100 caracteres.
+          El nombre de usuario debe tener al menos 5 caracteres.
         </div>
       </div>
       <label
@@ -75,11 +74,11 @@
       <div *ngIf="createUserForm.get('nombre_completo')?.invalid && createUserForm.get('nombre_completo')?.touched">
         <div *ngIf="createUserForm.get('nombre_completo')?.errors?.['required']"
         class="text-red-500 text-sm">
-          El nombre completo es requerido.
+          El nombre es requerido.
         </div>
         <div *ngIf="createUserForm.get('nombre_completo')?.errors?.['minlength']"
         class="text-red-500 text-sm">
-          El nombre completo debe tener al menos 3 caracteres.
+          El nombre debe tener al menos 3 caracteres.
         </div>
       </div>
       <label
@@ -92,12 +91,19 @@
         id="genero"
         class="w-full p-2 border rounded-md mb-3"
         formControlName="sexo"
-        required
       >
-        <option value="">Seleccione un genero</option>
+        <option value=''>Seleccione un genero</option>
         <option value="M">Masculino</option>
         <option value="F">Femenino</option>
       </select>
+      <div *ngIf="createUserForm.get('sexo')?.invalid && createUserForm.get('sexo')?.touched">
+        <div
+          *ngIf="createUserForm.get('sexo')?.errors?.['required']"
+          class="text-red-500 text-sm"
+        >
+          Debes seleccionar una opción.
+        </div>
+      </div>
       <label
         class="block text-sm font-medium text-gray-700"
       >
@@ -111,9 +117,17 @@
         formControlName="fecha_nacimiento"
       />
       <div *ngIf="createUserForm.get('fecha_nacimiento')?.invalid && createUserForm.get('fecha_nacimiento')?.touched">
-        <div *ngIf="createUserForm.get('fecha_nacimiento')?.errors?.['required']"
-        class="text-red-500 text-sm">
+        <div
+          *ngIf="createUserForm.get('fecha_nacimiento')?.errors?.['required']"
+          class="text-red-500 text-sm"
+        >
           La fecha es requerida.
+        </div>
+        <div
+          *ngIf="createUserForm.get('fecha_nacimiento')?.errors?.['fechaPosterior']"
+          class="text-red-500 text-sm"
+        >
+          La fecha no puede ser posterior a la fecha actual.
         </div>
       </div>
       <!-- Fecha Fin -->
@@ -128,10 +142,13 @@
         placeholder="Ingrese la Contraseña"
         formControlName="contrasena"
       />
-      <div *ngIf="createUserForm.get('contrsena')?.invalid && createUserForm.get('contrsena')?.touched">
-        <div *ngIf="createUserForm.get('contrsena')?.errors?.['required']"
+      <div *ngIf="createUserForm.get('contrasena')?.invalid && createUserForm.get('contrasena')?.touched">
+        <div *ngIf="createUserForm.get('contrasena')?.errors?.['required']"
         class="text-red-500 text-sm">
           La contraseña es requerida.
+        </div>
+        <div *ngIf="createUserForm.get('contrasena')?.errors?.['passwordInvalid']" class="text-red-500 text-sm">
+          La contraseña debe tener al menos 8 caracteres, incluir números y al menos una mayúscula.
         </div>
       </div>
       <label class="block text-sm font-medium text-gray-700">
@@ -145,83 +162,21 @@
         placeholder="Ingrese la Contraseña"
         formControlName="repeatContrasena"
       />
-      <div *ngIf="createUserForm.get('contrsena')?.invalid && createUserForm.get('contrsena')?.touched">
-        <div *ngIf="createUserForm.get('contrsena')?.errors?.['required']"
-        class="text-red-500 text-sm">
-          La contraseña es requerida.
-        </div>
-      </div>
+          <div
+            *ngIf="createUserForm?.errors?.['passwordMismatch'] && createUserForm.touched"
+            class="text-red-500 text-sm"
+          >
+            Las contraseñas no coinciden.
+          </div>
       <button
-        class="w-full h-12 rounded-lg bg-primary text-white mt-5 cursor-pointer"
+        class="w-full h-12 rounded-lg bg-primary text-white mt-5 cursor-pointer disabled:bg-primary/40 disabled:cursor-auto"
         (click)="onSubmit($event)"
+        [disabled]="createUserForm.invalid"
       >
         Registrarse
       </button>
     </form>
   </section>
 
-
-  <!-- <form action="" class="flex flex-col justify-center items-center w-1/2 h-full px-14">
-    <h1 class="text-4xl font-bold text-primary">
-      Registrarse
-    </h1>
-    <div class="flex flex-col justify-center items-center w-full mt-10 gap-1.5">
-      <fieldset class="flex flex-col justify-center items-center w-full">
-        <legend class="text-primary">
-          Nombre Completo
-        </legend>
-        <input
-          type="text"
-          class="w-full h-10 p-2 rounded-md border-1 border-primary/40" placeholder=""
-        >
-      </fieldset>
-      <fieldset class="flex flex-col justify-center items-center w-full">
-        <legend class="text-primary">
-          Nombre de Usuario (Único)
-        </legend>
-        <input
-          type="text"
-          class="w-full h-10 p-2 rounded-md border-1 border-primary/40" placeholder=""
-        >
-      </fieldset>
-      <fieldset class="flex flex-col justify-center items-center w-full">
-        <legend class="text-primary">
-          Fecha de Nacimiento
-        </legend>
-        <input
-          type="date"
-          class="w-full h-10 p-2 rounded-md border-1 border-primary/40" placeholder=""
-        >
-      </fieldset>
-      <fieldset class="flex flex-col justify-center items-center w-full">
-        <legend class="text-primary">
-          Correo electrónico
-        </legend>
-        <input
-          type="email"
-          class="w-full h-10 p-2 rounded-md border-1 border-primary/40" placeholder="ejemplo@gmail.com"
-        >
-      </fieldset>
-      <fieldset class="flex flex-col justify-center items-center w-full">
-        <legend class="text-primary">
-          Contraseña
-        </legend>
-        <input
-          type="password"
-          class="w-full h-10 p-2 rounded-md border-1 border-primary/40" placeholder=""
-          >
-      </fieldset>
-      <fieldset class="flex flex-col justify-center items-center w-full">
-        <legend class="text-primary">
-          Validar Contraseña
-        </legend>
-        <input
-          type="password"
-          class="w-full h-10 p-2 rounded-md border-1 border-primary/40" placeholder=""
-        >
-      </fieldset>
-
-    </div>
-  </form> -->
   <img class="w-1/2 h-full" src="https://i.pinimg.com/originals/b4/d1/c9/b4d1c9f9e4a6f3e9d3f4f2e1f8e8f5f7.jpg" alt="">
 </div>

@@ -15,12 +15,14 @@ import { UserService } from '@app/services/user.service';
 })
 export class UserCardComponent {
     @ViewChild('myModal') myModal: any
+    @ViewChild('myModalDelete') myModalDelete: any
     public userList: User[] = []
     @Output() createUser = new EventEmitter<Array<any>>()
     @Output() editUser = new EventEmitter<User>()
     @Output() deleteUser = new EventEmitter<User>()
     @Output() fileSelected = new EventEmitter<File>()
     public new_user: any
+    public userId: string = '';
 
     fechaNacimientoError: string = '';
     fechaFinError: string = '';
@@ -34,17 +36,15 @@ export class UserCardComponent {
     }
 
     ngOnInit(): void {
+      this.loadData()
+    }
+
+    loadData(): void {
       this.userService.getUsers().subscribe(
         (response) => {
           this.userList = response;
         }
       )
-    }
-
-    onAdd():void{
-
-      this.createUser.emit(this.new_user)
-
     }
 
     onEdit(item:User):void{
@@ -53,43 +53,6 @@ export class UserCardComponent {
 
     onDelete(item:User):void{
       this.deleteUser.emit(item)
-    }
-
-    //cambiar la validacion de acuerdo a los Usuarios
-    validateDates() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // Asegurar que la comparación es solo por fecha
-
-      const fechaActivacion = this.parseDate(this.new_user.fecha_activacion);
-      const fechaFin = this.parseDate(this.new_user.fecha_fin);
-
-      this.fechaNacimientoError = '';
-      this.fechaFinError = '';
-
-      // Validar que la fecha de activación sea mayor o igual a hoy
-      if (fechaActivacion && fechaActivacion < today) {
-          this.fechaNacimientoError = 'La fecha de activación debe ser hoy o una fecha futura.';
-      }
-
-      // Validar que la fecha de fin sea mayor a la fecha de activación
-      if (fechaActivacion && fechaFin && fechaFin <= fechaActivacion) {
-          this.fechaFinError = 'La fecha de fin debe ser mayor a la fecha de activación.';
-      }
-
-      // Validar que la fecha de fin no esté vacía
-      if (!this.new_user.fecha_fin) {
-        this.fechaFinError = 'La fecha de fin es obligatoria.';
-      }
-
-      // Si hay errores en fechas, marcamos el formulario como inválido
-      this.customFormInvalid = !!(this.fechaNacimientoError || this.fechaFinError);
-    }
-
-    // Función para convertir 'YYYY-MM-DD' a una fecha sin problemas de zona horaria
-    private parseDate(dateString: any): Date | null {
-      if (!dateString || typeof dateString !== 'string') return null;
-      const [year, month, day] = dateString.split('-').map(Number);
-      return new Date(year, month - 1, day); // Ajustar mes porque en JS enero es 0
     }
 
     onFileSelected(event: Event): void {
@@ -101,12 +64,29 @@ export class UserCardComponent {
     }
 
     handleNewUser(user: FormGroup): void {
-      console.log(user.value);
+      this.myModal.nativeElement.close();
       this.userService.createUser(user.value).subscribe(
         (response) => {
           console.log(response);
+          this.loadData()
         }
       )
+    }
+
+    openConfirmation(id: string) {
+      this.userId = id
+      this.myModalDelete.nativeElement.show()
+    }
+
+    DeleteUser(): void {
+      this.myModalDelete.nativeElement.close();
+      if (this.userId !== null){
+        const id = this.userId
+        this.userService.deleteUser(id).subscribe(res => {
+          console.log(res);
+          this.loadData()
+        })
+      }
     }
 
     closeModal() {

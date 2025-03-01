@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal} from '@angular/core';
-import { CreateUser, SessionInfo, User } from '@app/models/User';
+import { CreateUser, FormValuesLogin, SessionInfo, User } from '@app/models/User';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 export var urlRecord = "http://147.93.114.243/api"
@@ -29,8 +29,7 @@ export class UserService {
     return this.isAuthenticatedSignal();
   }
 
-  login (mail: string, password:string): Observable<SessionInfo>{
-    const loginData = { correo: mail, contrasena: password }
+  login (loginData: FormValuesLogin) : Observable<SessionInfo>{
     return this.http.post<SessionInfo>(`${urlRecord}/login`, loginData).pipe(
       tap((response: SessionInfo) => {
         if (typeof window !== 'undefined' && window.sessionStorage) {
@@ -62,4 +61,9 @@ export class UserService {
   createUser(user: CreateUser): Observable<String>{
     return this.http.post<String>(`${urlRecord}/users`, user)
   }
+
+  deleteUser(id: string): Observable<String>{
+    return this.http.delete<String>(`${urlRecord}/users/${id}`)
+  }
+
 }

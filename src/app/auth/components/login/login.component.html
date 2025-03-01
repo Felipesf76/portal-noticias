@@ -1,10 +1,64 @@
 <div class="flex justify-around items-center h-full w-full">
 
   <section class="flex flex-col w-1/2 h-full items-center justify-center">
-    <h1 class="text-4xl font-bold text-primary mb-10">
-      {{title}}
-    </h1>
-    <app-form class="h-grow w-full" [fields]="registerFields" (formSubmit)="onFormSubmit($event)"></app-form>
+    <form
+      [formGroup]="loginUserForm"
+      (ngSubmit)="onSubmit($event)"
+      class="w-3/4 mt-5"
+    >
+      <label
+        class="block text-sm font-medium text-gray-700"
+      >
+        Correo Electrónico
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="w-full p-2 border rounded-md mb-3"
+        placeholder="example@gmail.com"
+        formControlName="correo"
+      />
+      <div *ngIf="loginUserForm.get('correo')?.invalid && loginUserForm.get('correo')?.touched">
+        <div *ngIf="loginUserForm.get('correo')?.errors?.['required']"
+          class="text-red-500 text-sm"
+        >
+          El correo es requerido.
+        </div>
+        <div *ngIf="loginUserForm.get('correo')?.errors?.['email']"
+          class="text-red-500 text-sm"
+        >
+          El formato no coincide.
+        </div>
+      </div>
+      <label class="block text-sm font-medium text-gray-700">
+        Contraseña
+      </label>
+      <input
+        type="password"
+        id="contrasena"
+        name="contrasena"
+        class="w-full p-2 border rounded-md mb-3"
+        placeholder="Ingrese la Contraseña"
+        formControlName="contrasena"
+      />
+      <div *ngIf="loginUserForm.get('contrasena')?.invalid && loginUserForm.get('contrasena')?.touched">
+        <div *ngIf="loginUserForm.get('contrasena')?.errors?.['required']"
+        class="text-red-500 text-sm">
+          La contraseña es requerida.
+        </div>
+        <div *ngIf="loginUserForm.get('contrasena')?.errors?.['passwordInvalid']" class="text-red-500 text-sm">
+          La contraseña debe tener al menos 8 caracteres, incluir números y al menos una mayúscula.
+        </div>
+      </div>
+      <button
+        class="w-full h-12 rounded-lg bg-primary text-white mt-5 cursor-pointer disabled:bg-primary/40 disabled:cursor-auto"
+        (click)="onSubmit($event)"
+        [disabled]="loginUserForm.invalid"
+      >
+        Iniciar Sesión
+      </button>
+    </form>
   </section>
 
   <img class="w-1/2 h-full" src="https://i.pinimg.com/originals/b4/d1/c9/b4d1c9f9e4a6f3e9d3f4f2e1f8e8f5f7.jpg" alt="">

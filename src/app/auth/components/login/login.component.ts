@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormComponent } from '@shared/components/form/form.component';
-import { FormField } from '@shared/components/form/model/form.model';
-import { isEmptyValidator, minimunLenghtValidator } from '@form/form.validators';
+import { passwordValidator } from '@form/form.validators';
 import { UserService } from '@app/services/user.service';
-import { FormValuesLogin } from '@app/models/User';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-login',
-  imports: [FormComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   title = '';
+  loginUserForm: FormGroup = new FormGroup({});
 
   constructor(
     private userService: UserService,
@@ -22,35 +22,21 @@ export class LoginComponent {
   )
   {
     this.title = 'Iniciar Sesión';
-
   }
-  registerFields: FormField[] = [
-    {
-      type: 'text',
-      label: 'Usuario o Correo electrónico',
-      name: 'correo',
-      validators: [isEmptyValidator],
-    },
-    {
-      type: 'password',
-      label: 'Contraseña',
-      name: 'contrasena',
-      validators: [minimunLenghtValidator(6)],
-    }
-  ];
 
-  onFormSubmit(formValues: FormValuesLogin): void {
+  ngOnInit(): void {
+    this.loginUserForm = new FormGroup({
+            correo: new FormControl('', [Validators.required, Validators.email]),
+            contrasena: new FormControl('', [Validators.required, passwordValidator])
+          }
+        );
+  }
 
-    // Llamar al servicio login y suscribirse a la respuesta
-    this.userService.login(formValues.correo, formValues.contrasena).subscribe({
+  onSubmit(event: Event) {
+    event.preventDefault();
+    this.userService.login(this.loginUserForm.value).subscribe({
       next: (response) => {
         console.log('Login Success:', response);
-
-        // // Almacenar token en sessionStorage y user_id
-        // if (typeof window !== 'undefined' && window.sessionStorage) {
-        //   sessionStorage.setItem('auth_token', response.token);
-        //   sessionStorage.setItem('user_id', response.user.id);
-        // }
         if (this.userService.isLoggedIn()) {
           this.router.navigate(['/news']);
         }

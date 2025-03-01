@@ -29,3 +29,30 @@ export const passwordMatchValidator: ValidatorFn = (formGroup: AbstractControl):
   // Si coinciden, devuelve null (no hay error)
   return null;
 };
+
+export const dateAfterValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const fechaIngresada = new Date(control.value); // Convierte el valor del control a una fecha
+  const fechaActual = new Date(); // Obtiene la fecha actual
+
+  // Si la fecha ingresada es posterior a la fecha actual, devuelve un error
+  if (fechaIngresada > fechaActual) {
+    return { fechaPosterior: true };
+  }
+
+  return null;
+};
+
+export const passwordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const value = control.value;
+
+  // Expresión regular para validar la contraseña
+  const regex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+  // Verifica si la contraseña cumple con la expresión regular
+  if (!regex.test(value)) {
+    return { passwordInvalid: true };
+  }
+
+  // Si la contraseña es válida, devuelve null
+  return null;
+};
