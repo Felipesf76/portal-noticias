@@ -29,9 +29,11 @@ export class NavBarComponent implements OnInit{
   }
 
   ngOnInit() {
-    const id = sessionStorage.getItem('user_id')
+    if (sessionStorage.getItem('user_id')) {
+      const id = sessionStorage.getItem('user_id')
 
     if (id) {
+
       this.userService.getById(id).subscribe(
         (response) => {
           if (response.multimedia) {
@@ -42,6 +44,7 @@ export class NavBarComponent implements OnInit{
         }
       )
     }
+  }
   }
 
   toggleDropdown(event: MouseEvent) {

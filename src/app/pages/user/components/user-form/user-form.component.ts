@@ -47,7 +47,7 @@ export class UserFormComponent implements OnChanges {
         nombre_usuario: this.createUserForm.get('nombre_usuario')?.value,
         nombre_completo: this.createUserForm.get('nombre_completo')?.value,
         correo: this.createUserForm.get('correo')?.value,
-        password: this.createUserForm.get('password')?.value,
+        contrasena: this.createUserForm.get('contrasena')?.value,
         sexo: this.createUserForm.get('sexo')?.value,
         fecha_nacimiento: this.createUserForm.get('fecha_nacimiento')?.value
       };

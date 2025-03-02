@@ -2,20 +2,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '@services/user.service';
 import { Router } from '@angular/router';
 import { User } from '@app/models/User';
-<<<<<<< HEAD
 import { MatIconModule } from '@angular/material/icon';
 import { UserFormComponent } from '../../components/user-form/user-form.component';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { passwordMatchValidator, passwordValidator } from '@app/shared/components/form/form.validators';
-=======
 import { SlidePublicidadComponent } from '@app/shared/components/slide-publicidad/slide-publicidad.component';
->>>>>>> origin/main
 
 @Component({
-  imports: [SlidePublicidadComponent],
   selector: 'app-user-myprofile',
-  imports: [MatIconModule, UserFormComponent, CommonModule, ReactiveFormsModule],
+  imports: [MatIconModule, UserFormComponent, CommonModule, ReactiveFormsModule, SlidePublicidadComponent],
   templateUrl: './user-myprofile.component.html',
   styleUrl: './user-myprofile.component.css'
 })

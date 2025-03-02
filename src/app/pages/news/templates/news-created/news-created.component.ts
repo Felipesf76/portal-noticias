@@ -9,11 +9,8 @@ import { Categories } from '@app/models/Categories';
 import { CategorieService } from '@app/services/categories.service';
 import { SubscriptionService } from '@app/services/subscription.service';
 import { MatIconModule } from '@angular/material/icon';
-<<<<<<< HEAD
 import { User } from '@app/models/User';
-=======
 import { SlidePublicidadComponent } from '@app/shared/components/slide-publicidad/slide-publicidad.component';
->>>>>>> origin/main
 
 
 @Component({
@@ -67,35 +64,7 @@ export class NewsCreatedComponent implements OnInit, OnDestroy {
     }
 
     this.loadData()
-    // forkJoin({
-    //   categories: this.categoriesService.getCategories(),
-    //   news: this.newsService.getNews()
-    // }).subscribe({
-    //   next: ({ categories, news }) => {
-    //     console.log("Datos de categorías recibidos:", categories);
-    //     console.log("Datos de suscripciones recibidos:", news);
 
-    //     this.categoriesList = categories;
-    //     this.records_new = news;
-    //   },
-    //   error: (error) => console.error("Error al cargar datos:", error)
-    // });
-
-    // this.newsService.getNews()
-    // .pipe(takeUntil(this.destroy$))
-    // .subscribe(news => {
-    //   this.records_new = news
-    // });
-    // this.newsService.getNews()
-    // .pipe(takeUntil(this.destroy$))
-    // .subscribe(news => {
-    //   this.records_new = news;
-    // })
-    // this.categoriesService.getCategories()
-    // .pipe(takeUntil(this.destroy$))
-    // .subscribe(categories => {
-    //   this.categoriesList = categories;
-    // })
   }
 
   private loadData(): void {
@@ -130,7 +99,7 @@ export class NewsCreatedComponent implements OnInit, OnDestroy {
       user = JSON.parse(user)
       if (this.userId && this.userName) {
         news.append('id_usuarios', this.userId)
-        news.append('autor', 'David Felipe')
+        news.append('autor', this.userName)
       }
     }
 

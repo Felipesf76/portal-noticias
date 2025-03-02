@@ -13,11 +13,7 @@ import { SlidePublicidadComponent } from '@app/shared/components/slide-publicida
 
 @Component({
   selector: 'app-news-list',
-<<<<<<< HEAD
-  imports: [NewsCardComponent, NewsFiltersComponent],
-=======
-  imports: [NewsCardComponent, NewsFiltersComponent, SearchComponent, SlidePublicidadComponent],
->>>>>>> origin/main
+  imports: [NewsCardComponent, NewsFiltersComponent, SlidePublicidadComponent],
   templateUrl: './news-list.component.html',
   styleUrl: './news-list.component.css',
   providers: [CategorieService, NewsService]
