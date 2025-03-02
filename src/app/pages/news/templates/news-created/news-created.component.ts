@@ -9,12 +9,16 @@ import { Categories } from '@app/models/Categories';
 import { CategorieService } from '@app/services/categories.service';
 import { SubscriptionService } from '@app/services/subscription.service';
 import { MatIconModule } from '@angular/material/icon';
+<<<<<<< HEAD
 import { User } from '@app/models/User';
+=======
+import { SlidePublicidadComponent } from '@app/shared/components/slide-publicidad/slide-publicidad.component';
+>>>>>>> origin/main
 
 
 @Component({
   selector: 'app-news-created',
-  imports: [NewsCardComponent, ModalFormComponent, MatIconModule],
+  imports: [NewsCardComponent, ModalFormComponent, MatIconModule,SlidePublicidadComponent],
   templateUrl: './news-created.component.html',
   styleUrl: './news-created.component.css',
   providers: [NewsService, CategorieService, SubscriptionService]

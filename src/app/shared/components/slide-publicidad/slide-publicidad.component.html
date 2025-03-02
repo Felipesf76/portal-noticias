@@ -1,0 +1,9 @@
+<aside class="col-span-1 flex flex-col items-center justify-center bg-gray-100 p-4 fixed top-20 right-0 w-64 h-[calc(100vh-5rem)] shadow-lg overflow-auto">
+    <a *ngIf="publicity" [href]="publicity.url" target="_blank" class="text-center">
+        <img [src]="publicity.multimedia" [alt]="publicity.titulo" class="w-full h-auto mb-2 rounded-lg shadow-lg">
+        <h2 class="text-lg font-semibold text-gray-800">{{ publicity.titulo }}</h2>
+    </a>
+    <a *ngIf="publicity" [href]="publicity.url" target="_blank" class="text-blue-500 underline break-all">
+        {{ publicity.url }}
+    </a>
+</aside>

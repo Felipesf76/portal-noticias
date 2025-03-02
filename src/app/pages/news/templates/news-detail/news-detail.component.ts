@@ -10,12 +10,16 @@ import { News } from '@app/models/News';
 import { ActivatedRoute } from '@angular/router';
 import { CreateRating, UserInfo } from '@app/models/Califications';
 import { CalificationService } from '@app/services/califications.service';
+<<<<<<< HEAD
 import { log } from 'console';
+=======
+import { SlidePublicidadComponent } from '@app/shared/components/slide-publicidad/slide-publicidad.component';
+>>>>>>> origin/main
 
 
 @Component({
   selector: 'app-news-detail',
-  imports: [NewsRatingComponent, NewsCommentsListComponent, FormAddCommentComponent],
+  imports: [NewsRatingComponent, NewsCommentsListComponent, FormAddCommentComponent, SlidePublicidadComponent],
   templateUrl: './news-detail.component.html',
   styleUrl: './news-detail.component.css',
   providers: [CommentService, NewsService],
