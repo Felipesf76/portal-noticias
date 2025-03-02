@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '@services/user.service';
 import { Router } from '@angular/router';
 import { User } from '@app/models/User';
+import { SlidePublicidadComponent } from '@app/shared/components/slide-publicidad/slide-publicidad.component';
 
 @Component({
+  imports: [SlidePublicidadComponent],
   selector: 'app-user-myprofile',
   templateUrl: './user-myprofile.component.html',
   styleUrl: './user-myprofile.component.css'

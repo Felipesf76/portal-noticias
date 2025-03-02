@@ -5,10 +5,11 @@ import { Categories } from '@app/models/Categories';
 import { CommonModule } from '@angular/common';
 import { SubscriptionService } from '@app/services/subscription.service';
 import { forkJoin } from 'rxjs';
+import { SlidePublicidadComponent } from '@app/shared/components/slide-publicidad/slide-publicidad.component';
 
 @Component({
   selector: 'app-categories-list',
-  imports: [CommonModule, CategoryCardComponent],
+  imports: [CommonModule, CategoryCardComponent,SlidePublicidadComponent],
   templateUrl: './categories-list.component.html',
   styleUrl: './categories-list.component.css',
   providers: [CategorieService, SubscriptionService]
@@ -17,13 +18,14 @@ export class CategoriesListComponent implements OnInit{
   records_categories: Array<any> = []
   records_suscription_user:Array<any>=[]
   public updated_categories: Array<any> = []
-
+  
 
   public id_user: string | null = null;
 
+
   constructor(
     private categoryService: CategorieService,
-    private  subscriptionService: SubscriptionService
+    private  subscriptionService: SubscriptionService,
 
   )
   {
@@ -33,6 +35,7 @@ export class CategoriesListComponent implements OnInit{
     if (typeof window !== 'undefined') {
       this.id_user = sessionStorage.getItem('user_id');
     }
+    
     this.loadData();
   }
       /**

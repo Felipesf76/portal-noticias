@@ -9,10 +9,11 @@ import { SearchComponent } from '@news/components/search/search.component';
 import { CategorieService } from '@services/categories.service';
 import { Categories } from '@models/Categories';
 import { combineLatest, Subject, takeUntil } from 'rxjs';
+import { SlidePublicidadComponent } from '@app/shared/components/slide-publicidad/slide-publicidad.component';
 
 @Component({
   selector: 'app-news-list',
-  imports: [NewsCardComponent, NewsFiltersComponent, SearchComponent],
+  imports: [NewsCardComponent, NewsFiltersComponent, SearchComponent, SlidePublicidadComponent],
   templateUrl: './news-list.component.html',
   styleUrl: './news-list.component.css',
   providers: [CategorieService, NewsService]

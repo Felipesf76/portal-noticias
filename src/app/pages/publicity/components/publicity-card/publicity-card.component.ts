@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output,  ViewChild, ElementRef } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 
 
 import { Publicity } from '@app/models/Publicity';
-import { Console } from 'console';
+
 @Component({
   selector: 'app-publicity-card',
   imports: [CommonModule, MatIconModule, FormsModule],
@@ -13,13 +13,15 @@ import { Console } from 'console';
   styleUrl: './publicity-card.component.css',
 })
 export class PublicityCardComponent {
+@ViewChild('myModal') myModal!: ElementRef<HTMLDialogElement>;
 @Input() public record_publicity:Array<any>=[]
-@Output() createPublicity = new EventEmitter<Array<any>>()
-@Output() editPublicity = new EventEmitter<Publicity>()
+@Output() createPublicity = new EventEmitter<FormData>()
+@Output() editPublicity = new EventEmitter<FormData>()
 @Output() deletePublicity = new EventEmitter<Publicity>()
 @Output() fileSelected = new EventEmitter<File>()
 public new_publicity: any
-
+public is_editing: boolean  = false;
+selectedFile: File | null = null;
 fechaActivacionError: string = '';
 fechaFinError: string = '';
 public customFormInvalid: boolean = true; // Nueva propiedad para forzar la invalidación del formulario
@@ -27,24 +29,64 @@ public customFormInvalid: boolean = true; // Nueva propiedad para forzar la inva
 
  constructor(){
   this.new_publicity = {
-    titulo:"",
-    url:"",
-    fecha_creacion: new Date(),
-    fecha_activacion:'',
+    titulo: '',
+    url: '',
+    fecha_activacion: '',
     fecha_fin: '',
-    multimedia: null
-  }
+    multimedia: null,
+    fecha_publicacion: '',
+    id_administrador: ''
+};
  }
 
+
+onFileSelected(event: any) {
+  this.selectedFile = event.target.files[0];
+}
+
 onAdd():void{
+
+    this.new_publicity.id_administrador = sessionStorage.getItem('user_id');
+    
+    let formData = new FormData();
+
+    formData.append('titulo',this.new_publicity.titulo)
+    formData.append('url',this.new_publicity.url)
+    formData.append('fecha_activacion',this.new_publicity.fecha_activacion)
+    formData.append('fecha_fin',this.new_publicity.fecha_fin)
+    formData.append('fecha_publicacion',this.new_publicity.fecha_publicacion)
+    formData.append('id_administrador',this.new_publicity.id_administrador)
+    
+    if (this.selectedFile) {
+      formData.append('multimedia', this.selectedFile, this.new_publicity.multimedia);
+      }
+
+    if (this.is_editing){
+
+      this.is_editing = false;
+      formData.append('id', this.new_publicity.id);
+      this.editPublicity.emit(formData )
+
+    } else{
+
+      this.new_publicity.fecha_publicacion = new Date().toISOString().split('T')[0];
+      formData.append('fecha_publicacion',this.new_publicity.fecha_publicacion)
+      this.createPublicity.emit(formData)
+    }
+
+    this.myModal.nativeElement.close()
   
-  this.createPublicity.emit(this.new_publicity)
     
 }
 
 onEdit(item:Publicity):void{
-  this.editPublicity.emit(item)
+
+  this.is_editing = true
+  this.new_publicity = item
+  this.myModal.nativeElement.showModal()
+
 }
+
 
 onDelete(item:Publicity):void{
   this.deletePublicity.emit(item)
@@ -87,13 +129,6 @@ private parseDate(dateString: any): Date | null {
   return new Date(year, month - 1, day); // Ajustar mes porque en JS enero es 0
 }
 
-onFileSelected(event: Event): void {
-  const input = event.target as HTMLInputElement;
-  if (input.files && input.files[0]) {
-    const file = input.files[0];
-    this.fileSelected.emit(file);
-  }
-}
 }
 
 
