@@ -12,8 +12,9 @@ import { News } from '@app/models/News';
   styleUrl: './modal-form.component.css',
 })
 export class ModalFormComponent implements OnInit {
-  @Input() newsEdit: News = new News('', '', '', '', '', '', '', 0, new Date(), '', '')
+  @Input() newsEdit: News = new News('', '', '', '', '', '', 0, new Date(), '', '','')
   @Input() categoriesList: Categories[] = []
+  @Input() isEditMode: boolean = false
   @Output() formValues = new EventEmitter<FormData>();
   @Output() formValuesEdit = new EventEmitter<FormData>();
   @Output() closeModal = new EventEmitter<void>();
@@ -24,12 +25,25 @@ export class ModalFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateCategories()
+    this.createNewsForm = new FormGroup({
+      titulo: new FormControl('', [Validators.required, Validators.minLength(10)]),
+      descripcion: new FormControl('', [Validators.required, Validators.minLength(100)]),
+      categoria: new FormControl(''),
+      pais: new FormControl('', Validators.required),
+      url: new FormControl('', Validators.required),
+      multimedia: new FormControl('')
+    });
     //this.initializeForm()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['newsEdit'] || changes['categoriesList']) {
-      this.initializeForm(true);
+    if (this.isEditMode && this.newsEdit) {
+      const userEditSinFile = { ...this.newsEdit };
+      delete userEditSinFile.multimedia;
+      this.createNewsForm.patchValue(userEditSinFile)
+      //this.initializeForm(true);
+    }else {
+      this.createNewsForm.reset()
     }
   }
 
@@ -72,20 +86,11 @@ export class ModalFormComponent implements OnInit {
     formData.append('descripcion', this.createNewsForm.get('descripcion')?.value);
     formData.append('id_categorias', this.createNewsForm.get('categoria')?.value);
     formData.append('pais', this.createNewsForm.get('pais')?.value);
-    formData.append('url', this.createNewsForm.get('fuente')?.value);
+    formData.append('url', this.createNewsForm.get('url')?.value);
 
     if (this.selectedFile) {
     formData.append('multimedia', this.selectedFile, this.selectedFile?.name);
     }
-
-    console.log('titulo', formData.get('titulo'))
-    console.log('descripcion', formData.get('descripcion'))
-    console.log('id_categorias', formData.get('id_categorias'))
-    console.log('pais', formData.get('pais'))
-    console.log('url', formData.get('url'))
-    console.log('multimedia', formData.get('multimedia'))
-
-
     if(this.newsEdit.id){
       this.formValuesEdit.emit(formData);
     }else {

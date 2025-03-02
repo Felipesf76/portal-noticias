@@ -27,6 +27,7 @@
         (formValues)="handleNewsCreated($event)"
         (closeModal)="onCloseModal()"
         (formValuesEdit)="handleEditNews($event)"
+        [isEditMode]="isEditMode"
       ></app-modal-form>
     </dialog>
     <dialog #myModalDelete>

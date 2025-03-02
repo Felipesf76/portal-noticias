@@ -10,6 +10,7 @@ import { News } from '@app/models/News';
 import { ActivatedRoute } from '@angular/router';
 import { CreateRating, UserInfo } from '@app/models/Califications';
 import { CalificationService } from '@app/services/califications.service';
+import { log } from 'console';
 
 
 @Component({
@@ -24,21 +25,26 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>()
   private getIdNews = ''
   public newsId: string | null = ''
-  public newsContent: News = new News('', '', '', '', '', '', '', 0, new Date(), '', '')
+  public newsContent: News = new News('', '', '', '', '', '', 0, new Date(), '', '','')
   public rating = 0
+  userId: string | null = null
 
   constructor(
     private _commentService: CommentService,
     private _newsService: NewsService,
     private route: ActivatedRoute,
     private ratingService: CalificationService
-  ){ }
+  ){
+    if(sessionStorage.getItem('user_id') !== null) {
+      this.userId = sessionStorage.getItem('user_id')
+    }
+  }
 
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
       this.newsId = params.get('id');
-      if(this.newsId !== null){
+      if(this.newsId !== null && this.userId !== null){
         this.getIdNews = this.newsId
         this._newsService.getOneNews(this.newsId)
         .pipe(takeUntil(this.destroy$))
@@ -49,11 +55,10 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
         this.getComments(this.newsId)
         const userInfo:UserInfo = {
           id_noticias: this.getIdNews,
-          id_usuarios: 'a3414a51-84dc-48f1-b967-9ad4106b8cba'
+          id_usuarios: this.userId
         }
 
         this.ratingService.getCalification(userInfo).subscribe(rating => {
-          //TODO: Crear la lógica para taer los datos
           if(rating){
             this.rating = rating[0].valor
           }else {
@@ -80,22 +85,24 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
   }
 
   handleRatingSubmission(rating: number): void {
-    const newsRating: CreateRating = {
-      id_noticias: this.getIdNews,
-      //TODO: Añadir la información del usuario
-      id_usuarios: 'a3414a51-84dc-48f1-b967-9ad4106b8cba',
-      valor: rating
+    if (this.userId !== null) {
+      const newsRating: CreateRating = {
+        id_noticias: this.getIdNews,
+        id_usuarios: this.userId,
+        valor: rating
+      }
+      console.log(newsRating)
+      this.ratingService.createCalifications(newsRating).subscribe(response => {
+        console.log(response);
+      })
     }
-    this.ratingService.createCalifications(newsRating).subscribe(response => {
-      console.log(response);
-    })
   }
 
   handleCommentText(text: string): void {
+    if (this.userId !== null) {
     const commentToSend: CreateComment = {
       texto: text,
-      //TODO: Agregar el dato del usuario cuando se cree la sesión
-      id_usuarios: 'a3414a51-84dc-48f1-b967-9ad4106b8cba',
+      id_usuarios: this.userId,
       id_noticias: this.getIdNews
     }
 
@@ -104,5 +111,6 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
         console.log(response);
         this.getComments(this.getIdNews)
       })
+    }
   }
 }

@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './news-card.component.css',
 })
 export class NewsCardComponent {
-  @Input() public varNews: News = new News("", "", "", "", "", "", "", 0, new Date('2024-11-01'), "", "")
+  @Input() public varNews: News = new News("", "", "", "", "", "", 0, new Date(), "", "", "")
   @Input() public editNews: boolean = false
   @Output() editNewsModal = new EventEmitter<string>()
   @Output() deleteNewsModal = new EventEmitter<string>()

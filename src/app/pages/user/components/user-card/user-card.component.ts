@@ -6,6 +6,8 @@ import { UserFormComponent } from '../user-form/user-form.component';
 
 import { User } from '@app/models/User'
 import { UserService } from '@app/services/user.service';
+import { AdminsService } from '@app/services/admins.service';
+import { Admins } from '@app/models/Admins';
 
 @Component({
   selector: 'app-user-card',
@@ -23,6 +25,9 @@ export class UserCardComponent {
     @Output() fileSelected = new EventEmitter<File>()
     public new_user: any
     public userId: string = '';
+    public adminsList: Admins[] = []
+    public userInfo: User = new User('', '', '', '', '', '', new Date())
+    isEditMode = false;
 
     fechaNacimientoError: string = '';
     fechaFinError: string = '';
@@ -31,6 +36,7 @@ export class UserCardComponent {
 
     constructor(
       private userService: UserService,
+      private adminService: AdminsService,
     ){
 
     }
@@ -45,27 +51,36 @@ export class UserCardComponent {
           this.userList = response;
         }
       )
+      this.adminService.getAdmins().subscribe(
+        (response) => {
+          this.adminsList = response;
+        }
+      )
     }
 
     onEdit(item:User):void{
-      this.editUser.emit(item)
+      this.isEditMode = true
+      this.userInfo = item
+      this.myModal.nativeElement.show()
     }
 
     onDelete(item:User):void{
       this.deleteUser.emit(item)
     }
 
-    onFileSelected(event: Event): void {
-      const input = event.target as HTMLInputElement;
-      if (input.files && input.files[0]) {
-        const file = input.files[0];
-        this.fileSelected.emit(file);
-      }
+    handleNewUser(user: Object): void {
+      this.myModal.nativeElement.close();
+      this.userService.createUser(user).subscribe(
+        (response) => {
+          console.log(response);
+          this.loadData()
+        }
+      )
     }
 
-    handleNewUser(user: FormGroup): void {
+    handleEditUser(data: {formData: Object, userId: string}): void {
       this.myModal.nativeElement.close();
-      this.userService.createUser(user.value).subscribe(
+      this.userService.editUser(data.formData, data.userId).subscribe(
         (response) => {
           console.log(response);
           this.loadData()
@@ -83,6 +98,33 @@ export class UserCardComponent {
       if (this.userId !== null){
         const id = this.userId
         this.userService.deleteUser(id).subscribe(res => {
+          console.log(res);
+          this.loadData()
+        })
+      }
+    }
+
+    createModalopen() {
+      this.isEditMode = false
+      this.myModal.nativeElement.show();
+    }
+
+    isAdministrator(userId: string): boolean {
+      return !!this.adminsList.find(item => item.id === userId);
+    }
+
+    toggleAdmin(userId: string): void {
+      const data = {
+        id: userId
+      }
+
+      if (!this.isAdministrator(userId)) {
+        this.adminService.createAdmin(data).subscribe(res => {
+          console.log(res);
+          this.loadData()
+        })
+      }else{
+        this.adminService.deleteAdmin(userId).subscribe(res => {
           console.log(res);
           this.loadData()
         })

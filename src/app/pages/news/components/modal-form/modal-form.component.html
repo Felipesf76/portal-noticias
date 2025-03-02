@@ -2,7 +2,9 @@
   <div class="bg-white p-6 rounded-lg shadow-lg w-2/3 relative">
 
     <header class="flex w-full justify-between items-center mb-4">
-      <h2 class="text-xl font-bold text-gray-700">Agregar Noticia</h2>
+      <h2 class="text-xl font-bold text-gray-700">
+        {{ isEditMode ? 'Editar Noticia' : 'Crear Noticia' }}
+      </h2>
       <button
         class=" text-red-500 hover:text-red-700 cursor-pointer"
         (click)="onClose()"
@@ -17,7 +19,8 @@
         type="text"
         id="titulo"
         name="titulo"
-        class="w-full p-2 border rounded-md mb-3" placeholder="Ingrese el título"
+        class="w-full p-2 border rounded-md mb-3"
+        placeholder="Ingrese el título"
         formControlName="titulo"
         />
         <div *ngIf="createNewsForm.get('titulo')?.invalid && createNewsForm.get('titulo')?.touched">
@@ -95,7 +98,7 @@
           name="url"
           class="w-full p-2 border rounded-md mb-3"
           placeholder="Ingrese la fuente"
-          formControlName="fuente"
+          formControlName="url"
           required
         />
         <div *ngIf="createNewsForm.get('fuente')?.invalid && createNewsForm.get('fuente')?.touched">
@@ -138,9 +141,9 @@
             <button
                 type="submit"
                 class="px-4 py-2 rounded-md text-white bg-fourth cursor-pointer disabled:bg-gray-400 disabled:cursor-auto"
-                [disabled]="!createNewsForm.valid && newsEdit"
+                [disabled]="(!createNewsForm.valid && newsEdit) &&!isEditMode"
                 >
-                GUARDAR
+                {{ isEditMode ? 'EDITAR' : 'CREAR' }}
             </button>
 
         </div>

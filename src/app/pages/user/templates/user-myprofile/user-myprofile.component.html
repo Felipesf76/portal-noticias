@@ -8,15 +8,22 @@
     <section class="self-center w-full gap-3 text-lg">
       <div class="p-8 bg-white shadow-md rounded-lg">
 
-        <div class="flex items-center mb-2">
+        <div class="flex w-full justify-between items-start mb-2">
           <img
-            src="https://randomuser.me/api/portraits/men/32.jpg"
+            (click)="openChangePhotoModal()"
+            src={{userInfo.multimedia}}
             alt="Imagen de Usuario"
-            class="w-24 h-24 rounded-full border-2 border-gray-300"
+            class="w-24 h-24 rounded-full hover:bg-gray-400/60 cursor-pointer"
           />
+          <mat-icon
+            class="grid items-center cursor-pointer rounded-md w-12 h-12"
+            (click)="openModal()"
+          >
+            edit
+          </mat-icon>
         </div>
         <table
-          class="table-auto w-full border-collapse gap-8 text-lg mb-12"
+          class="table-auto w-1/2 border-collapse text-lg mb-12"
         >
           <tr>
             <td>
@@ -61,11 +68,13 @@
         </table>
 
         <div class="flex items-center mb-2">
-          <button class="mt-4 px-6 py-2 bg-gray-500 text-white font-bold rounded-lg hover:bg-gray-800 mr-4 cursor-pointer">
+          <button
+            (click)="passwordModal.show()"
+            class="mt-4 px-6 py-2 bg-gray-500 text-white font-bold rounded-lg hover:bg-gray-800 mr-4 cursor-pointer"
+          >
             <span>Cambiar contraseña</span>
           </button>
           <button
-
             (click)="logout()"
             class="flex justify-between items-center gap-1.5 bg-fourth mt-4 px-4 py-2  text-white font-bold rounded-lg hover:bg-red-500 cursor-pointer"
           >
@@ -79,6 +88,166 @@
 
     </section>
   </div>
+  <dialog #myModalChangePhoto>
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-2/3 relative">
+
+        <header class="flex w-full justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-gray-700">
+            Cambiar foto de perfil
+          </h2>
+          <button
+            class=" text-red-500 hover:text-red-700 cursor-pointer"
+            (click)="onClosePasswordModal()"
+          >
+            ❌
+          </button>
+        </header>
+
+        <form [formGroup]="changePhotoForm" (ngSubmit)="onSubmitPhoto($event)" >
+
+          <div class="flex items-center space-x-2 border p-3 rounded-md hover:bg-gray-100"
+          >
+            <span class="text-blue-500 text-xl">📤</span>
+            <input type="file"
+              id="multimedia"
+              name="multimedia"
+              class="w-full h-full cursor-pointer"
+              formControlName="multimedia"
+              (change)="onFileSelected($event)"
+              required
+            />
+          </div>
+          <div *ngIf="changePhotoForm.get('multimedia')?.invalid && changePhotoForm.get('multimedia')?.touched">
+            <div *ngIf="changePhotoForm.get('multimedia')?.errors?.['required']"
+            class="text-red-500 text-sm">
+              El archivo multimedia es requerido.
+            </div>
+          </div>
+
+            <div class="flex justify-center gap-20  mt-5">
+                <button
+                  type="button"
+                  class="bg-primary text-white px-4 py-2 rounded-md hover:bg-gray-700 cursor-pointer"
+                  (click)="onClosePasswordModal()"
+                >
+                  CANCELAR
+                </button>
+
+                <button
+                    type="submit"
+                    class="px-4 py-2 rounded-md text-white bg-fourth cursor-pointer disabled:bg-gray-400 disabled:cursor-auto"
+                    >
+                    CAMBIAR
+                </button>
+
+            </div>
+        </form>
+
+      </div>
+    </div>
+  </dialog>
+  <dialog #myModal>
+    <app-user-form
+      (closeModal)="closeModal()"
+      (formValuesEdit)="handleEditUser($event)"
+      [userEdit]="userInfo"
+      [isEditMode]="isEditMode"
+    ></app-user-form>
+  </dialog>
+  <dialog #passwordModal>
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-2/3 relative">
+
+        <header class="flex w-full justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-gray-700">
+            Cambiar Contraseña
+          </h2>
+          <button
+            class=" text-red-500 hover:text-red-700 cursor-pointer"
+            (click)="onClose()"
+          >
+              ❌
+          </button>
+        </header>
+
+        <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmit($event)" >
+              <label class="block text-sm font-medium text-gray-700">
+                Contraseña
+              </label>
+              <input
+                type="password"
+                name="contraena"
+                class="w-full p-2 border rounded-md mb-3"
+                placeholder="Ingrese la Contraseña"
+                formControlName="contrasenaVieja"
+              />
+              <div *ngIf="changePasswordForm.get('contrasenaVieja')?.invalid && changePasswordForm.get('contrasenaVieja')?.touched">
+                <div *ngIf="changePasswordForm.get('contrasenaVieja')?.errors?.['required']"
+                class="text-red-500 text-sm">
+                  La contraseña es requerida.
+                </div>
+              </div>
+              <label class="block text-sm font-medium text-gray-700">
+                Nueva Contraseña
+              </label>
+              <input
+                type="password"
+                name="contraena"
+                class="w-full p-2 border rounded-md mb-3"
+                placeholder="Ingrese la Contraseña"
+                formControlName="contrasena"
+              />
+              <div *ngIf="changePasswordForm.get('contrasena')?.invalid && changePasswordForm.get('contrasena')?.touched">
+                <div *ngIf="changePasswordForm.get('contrasena')?.errors?.['required']"
+                class="text-red-500 text-sm">
+                  La contraseña es requerida.
+                </div>
+                <div *ngIf="changePasswordForm.get('contrasena')?.errors?.['passwordInvalid']" class="text-red-500 text-sm">
+                  La contraseña debe tener al menos 8 caracteres, incluir números y al menos una mayúscula.
+                </div>
+              </div>
+              <label class="block text-sm font-medium text-gray-700">
+                Compruebe su contraseña
+              </label>
+              <input
+                type="password"
+                id="repeatContrasena"
+                name="Repeatcontrasena"
+                class="w-full p-2 border rounded-md mb-3"
+                placeholder="Ingrese la Contraseña"
+                formControlName="repeatContrasena"
+              />
+              <div
+                *ngIf="changePasswordForm?.errors?.['passwordMismatch'] && changePasswordForm.touched"
+                class="text-red-500 text-sm"
+              >
+                Las contraseñas no coinciden.
+              </div>
+
+            <div class="flex justify-center gap-20  mt-5">
+                <button
+                  type="button"
+                  class="bg-primary text-white px-4 py-2 rounded-md hover:bg-gray-700 cursor-pointer"
+                  (click)="onClose()"
+                >
+                  CANCELAR
+                </button>
+
+                <button
+                    type="submit"
+                    class="px-4 py-2 rounded-md text-white bg-fourth cursor-pointer disabled:bg-gray-400 disabled:cursor-auto"
+                    [disabled]="(!changePasswordForm.valid)"
+                    >
+                    CAMBIAR
+                </button>
+
+            </div>
+        </form>
+
+      </div>
+    </div>
+  </dialog>
   <aside class=" col-span-1 col-end-5 row-span-4 bg-blue-200">
     Imagen de propaganda
   </aside>

@@ -33,21 +33,23 @@
               Categorías
             </a>
           </li>
-          <li [routerLinkActive]="['text-fourth']">
-            <a [routerLink]="['/publicity']" class="text-secundary hover:text-fourth">
-              Publicidad
-            </a>
-          </li>
-          <li [routerLinkActive]="['text-fourth']">
-            <a [routerLink]="['/users']" class="text-secundary hover:text-fourth">
-              Usuarios
-            </a>
-          </li>
+          @if (isAdmin()) {
+            <li [routerLinkActive]="['text-fourth']">
+              <a [routerLink]="['/publicity']" class="text-secundary hover:text-fourth">
+                Publicidad
+              </a>
+            </li>
+            <li [routerLinkActive]="['text-fourth']">
+              <a [routerLink]="['/users']" class="text-secundary hover:text-fourth">
+                Usuarios
+              </a>
+            </li>
+          }
           <li>
             <a
               [routerLink]="['/profile']"
             >
-              <img src="" alt="avatar" class="w-12 h-12 rounded-full bg-amber-200">
+              <img src={{userPhoto}} alt="avatar" class="w-12 h-12 rounded-full bg-amber-200">
             </a>
           </li>
         } @else {

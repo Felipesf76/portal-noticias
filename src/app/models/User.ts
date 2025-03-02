@@ -6,7 +6,8 @@ export class User {
     public nombre_usuario: string,
     public nombre_completo: string,
     public sexo: string,
-    public fecha_nacimiento: Date
+    public fecha_nacimiento: Date,
+    public multimedia?: string
   ) {}
 }
 

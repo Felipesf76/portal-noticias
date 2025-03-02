@@ -9,6 +9,7 @@ import { Categories } from '@app/models/Categories';
 import { CategorieService } from '@app/services/categories.service';
 import { SubscriptionService } from '@app/services/subscription.service';
 import { MatIconModule } from '@angular/material/icon';
+import { User } from '@app/models/User';
 
 
 @Component({
@@ -25,16 +26,29 @@ export class NewsCreatedComponent implements OnInit, OnDestroy {
   public categoriesList: Categories[] = []
   private destroy$ = new Subject<void>();
   public modal: boolean = false;
-  public newsInfo: News = new News('', '', '', '', '', '', '', 0, new Date(), '', '')
+  public newsInfo: News = new News('', '', '', '', '', '', 0, new Date(), '', '','')
   public id_user : string | null = null;
   public newsId: string | null = null;
+  private userId: string | null = null;
+  private userName: string | null = null;
+  isEditMode = false;
 
   constructor(
     private newsService: NewsService,
     private categoriesService: CategorieService,
     private subscriptionService: SubscriptionService
-
   ){
+    this.userId = sessionStorage.getItem('user_id')
+    const userData = sessionStorage.getItem('user');
+
+    if (userData) {
+      // Convertir el string a objeto
+      const user = JSON.parse(userData);
+
+      // Acceder a la propiedad 'name'
+      this.userName = user.nombre_completo;
+    }
+
     // this.categoriesService.getCategories().subscribe({
     //   next:  (info)  => {
     //     this.categoriesList = info
@@ -107,14 +121,19 @@ export class NewsCreatedComponent implements OnInit, OnDestroy {
   }
 
   handleNewsCreated(news: FormData): void {
-    this.myModal.nativeElement.close();
-    //TODO: Ajustar los datos del usuario con la sesión
-    news.append('id_usuarios', 'bb383bbb-7a4a-4ba3-ada2-4d33559cd916')
-    news.append('autor', 'Maria Garcia')
+    let user = sessionStorage.getItem('user')
+    if (user) {
+      user = JSON.parse(user)
+      if (this.userId && this.userName) {
+        news.append('id_usuarios', this.userId)
+        news.append('autor', 'David Felipe')
+      }
+    }
 
     this.newsService.createNews(news).subscribe(res => {
-      console.log(res);
+      this.loadData()
     })
+    this.myModal.nativeElement.close();
 
   }
   onCloseModal() {
@@ -123,28 +142,26 @@ export class NewsCreatedComponent implements OnInit, OnDestroy {
   onEditNewsModal(id: string) {
     //TODO: Crear la lógica del Modal
     if(id){
-      console.log(id)
+      this.isEditMode = true
       this.newsService.getOneNews(id).subscribe(news => {
         this.newsInfo = news
+        this.myModal.nativeElement.show()
       })
-      this.myModal.nativeElement.show()
     }
   }
 
+  // public editPublicity(item: FormData):void{
+
+  //   const idPublicity = item.get("id") as string;
+
+  //   this.publicityService.editPublicity(item,idPublicity).subscribe({
+  //     next: (response) => console.log("edit exitoso: ", response),
+  //     error: (error) => console.error("Error al editar datos:", error)
+  //   })
+  // }
   handleEditNews(news: FormData): void {
     this.myModal.nativeElement.close();
-    //TODO: Ajustar los datos del usuario con la sesión
-    // news.append('id_usuarios', 'bb383bbb-7a4a-4ba3-ada2-4d33559cd916')
-    // news.append('autor', 'Maria Garcia')
-    console.log('pADRE A ENVIAR: ', news.values());
-    console.log('titulo', news.get('titulo'))
-    console.log('descripcion', news.get('descripcion'))
-    console.log('id_categorias', news.get('id_categorias'))
-    console.log('pais', news.get('pais'))
-    console.log('url', news.get('url'))
-    console.log('multimedia', news.get('multimedia'))
-
-    this.newsService.updateNews(this.newsInfo.id, news).subscribe(res => {
+    this.newsService.updateNews(news, this.newsInfo.id).subscribe(res => {
       console.log(res);
     })
   }
@@ -166,7 +183,6 @@ export class NewsCreatedComponent implements OnInit, OnDestroy {
   }
 
   modalCreateOpen(): void {
-    this.newsInfo = new News('', '', '', '', '', '', '', 0, new Date(), '', '')
     this.myModal.nativeElement.show()
   }
 

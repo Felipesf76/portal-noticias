@@ -1,15 +1,31 @@
-import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Injectable, signal } from "@angular/core";
 import { Admins } from "@app/models/Admins";
+import { map, Observable } from "rxjs";
 
-@Injectable()
+export var urlRecord = "http://147.93.114.243/api"
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AdminsService{
-    constructor(){}
-    getAdmins(): Array<Admins>{
-        return[
-            new Admins('375290d0-85ef-42af-b5a3-2a2b1b63bf5a'),
-            new Admins('18349965-b565-42c1-a943-e8b6a6b2df21'),
-            new Admins('a1928160-ee2a-4dcd-b75d-e15b9e0122d0')
-        ]
+
+    constructor(
+      private http: HttpClient
+    ){}
+    getAdmins(): Observable<Admins[]>{
+        return this.http.get<Admins[]>(`${urlRecord}/administrator`);
+    }
+
+    getAdminById(id: string): Observable<Admins>{
+        return this.http.get<Admins>(`${urlRecord}/administrator/${id}`);
+    }
+
+    createAdmin(userId: Object): Observable<string>{
+        return this.http.post<string>(`${urlRecord}/administrator`, userId);
+    }
+
+    deleteAdmin(userId: string): Observable<string>{
+        return this.http.delete<string>(`${urlRecord}/administrator/${userId}`);
     }
 }
-

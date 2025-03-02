@@ -2,7 +2,9 @@
   <div class="bg-white p-6 rounded-lg shadow-lg w-2/3 relative">
 
     <header class="flex w-full justify-between items-center mb-4">
-      <h2 class="text-xl font-bold text-gray-700">Usuario</h2>
+      <h2 class="text-xl font-bold text-gray-700">
+        {{ isEditMode ? 'Editar Usuario' : 'Crear Usuario' }}
+      </h2>
       <button
         class=" text-red-500 hover:text-red-700 cursor-pointer"
         (click)="onClose()"
@@ -19,22 +21,22 @@
         </label>
         <input
           type="email"
-          id="email"
           name="email"
+          value="{{userEdit.correo}}"
           class="w-full p-2 border rounded-md mb-3"
           placeholder="example@gmail.com"
           formControlName="correo"
         />
-        <div *ngIf="createUserForm.get('email')?.invalid && createUserForm.get('email')?.touched">
-          <div *ngIf="createUserForm.get('email')?.errors?.['required']"
+        <div *ngIf="createUserForm.get('correo')?.invalid && createUserForm.get('correo')?.touched">
+          <div *ngIf="createUserForm.get('correo')?.errors?.['required']"
             class="text-red-500 text-sm"
           >
             El correo es requerido.
           </div>
-          <div *ngIf="createUserForm.get('email')?.errors?.['minlength']"
+          <div *ngIf="createUserForm.get('correo')?.errors?.['email']"
             class="text-red-500 text-sm"
           >
-            El título debe tener al menos 10 caracteres.
+            El formato no coincide.
           </div>
         </div>
         <!-- URL -->
@@ -57,7 +59,7 @@
           </div>
           <div *ngIf="createUserForm.get('nombre_usuario')?.errors?.['minlength']"
           class="text-red-500 text-sm">
-            El nombre de usuario debe tener al menos 100 caracteres.
+            El nombre de usuario debe tener al menos 5 caracteres.
           </div>
         </div>
         <label
@@ -75,11 +77,11 @@
         <div *ngIf="createUserForm.get('nombre_completo')?.invalid && createUserForm.get('nombre_completo')?.touched">
           <div *ngIf="createUserForm.get('nombre_completo')?.errors?.['required']"
           class="text-red-500 text-sm">
-            El nombre completo es requerido.
+            El nombre es requerido.
           </div>
           <div *ngIf="createUserForm.get('nombre_completo')?.errors?.['minlength']"
           class="text-red-500 text-sm">
-            El nombre completo debe tener al menos 3 caracteres.
+            El nombre debe tener al menos 3 caracteres.
           </div>
         </div>
         <label
@@ -89,7 +91,6 @@
         </label>
         <select
           name="genero"
-          id="genero"
           class="w-full p-2 border rounded-md mb-3"
           formControlName="sexo"
           required
@@ -98,6 +99,14 @@
           <option value="M">Masculino</option>
           <option value="F">Femenino</option>
         </select>
+        <div *ngIf="createUserForm.get('sexo')?.invalid && createUserForm.get('sexo')?.touched">
+          <div
+            *ngIf="createUserForm.get('sexo')?.errors?.['required']"
+            class="text-red-500 text-sm"
+          >
+            Debes seleccionar una opción.
+          </div>
+        </div>
         <label
           class="block text-sm font-medium text-gray-700"
         >
@@ -105,35 +114,46 @@
         </label>
         <input
           type="date"
-          id="fecha_nacimiento"
           name="fecha_nacimiento"
           class="w-full p-2 border rounded-md mb-3"
           formControlName="fecha_nacimiento"
         />
         <div *ngIf="createUserForm.get('fecha_nacimiento')?.invalid && createUserForm.get('fecha_nacimiento')?.touched">
-          <div *ngIf="createUserForm.get('fecha_nacimiento')?.errors?.['required']"
-          class="text-red-500 text-sm">
+          <div
+            *ngIf="createUserForm.get('fecha_nacimiento')?.errors?.['required']"
+            class="text-red-500 text-sm"
+          >
             La fecha es requerida.
+          </div>
+          <div
+            *ngIf="createUserForm.get('fecha_nacimiento')?.errors?.['fechaPosterior']"
+            class="text-red-500 text-sm"
+          >
+            La fecha no puede ser posterior a la fecha actual.
           </div>
         </div>
         <!-- Fecha Fin -->
-        <label class="block text-sm font-medium text-gray-700">
-          Contraseña
-        </label>
-        <input
-          type="password"
-          id="contraena"
-          name="contraena"
-          class="w-full p-2 border rounded-md mb-3"
-          placeholder="Ingrese la Contraseña"
-          formControlName="contrasena"
-        />
-        <div *ngIf="createUserForm.get('contrsena')?.invalid && createUserForm.get('contrsena')?.touched">
-          <div *ngIf="createUserForm.get('contrsena')?.errors?.['required']"
-          class="text-red-500 text-sm">
-            La contraseña es requerida.
+        @if (!isEditMode) {
+          <label class="block text-sm font-medium text-gray-700">
+            Contraseña
+          </label>
+          <input
+            type="password"
+            name="contraena"
+            class="w-full p-2 border rounded-md mb-3"
+            placeholder="Ingrese la Contraseña"
+            formControlName="contrasena"
+          />
+          <div *ngIf="createUserForm.get('contrasena')?.invalid && createUserForm.get('contrasena')?.touched">
+            <div *ngIf="createUserForm.get('contrasena')?.errors?.['required']"
+            class="text-red-500 text-sm">
+              La contraseña es requerida.
+            </div>
+            <div *ngIf="createUserForm.get('contrasena')?.errors?.['passwordInvalid']" class="text-red-500 text-sm">
+              La contraseña debe tener al menos 8 caracteres, incluir números y al menos una mayúscula.
+            </div>
           </div>
-        </div>
+        }
 
         <!-- Botones -->
         <div class="flex justify-center gap-20  mt-5">
@@ -148,9 +168,9 @@
             <button
                 type="submit"
                 class="px-4 py-2 rounded-md text-white bg-fourth cursor-pointer disabled:bg-gray-400 disabled:cursor-auto"
-                [disabled]="!createUserForm.valid && userEdit"
+                [disabled]="(!createUserForm.valid && userEdit) &&!isEditMode"
                 >
-                GUARDAR
+                {{ isEditMode ? 'EDITAR' : 'CREAR' }}
             </button>
 
         </div>

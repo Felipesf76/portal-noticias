@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable} from '@angular/core';
 import { News } from '@app/models/News';
+import { log } from 'console';
 import { Observable, of } from 'rxjs';
 
 export var baseUrl = "http://147.93.114.243/api"
@@ -24,11 +25,13 @@ export class NewsService {
   }
 
   createNews(news: FormData): Observable<string> {
+  console.log('Autor', news.get('autor'));
+
     return this.http.post<string>(`${baseUrl}/news`, news)
   }
 
-  updateNews(newsId: string, news: FormData): Observable<string> {
-    return this.http.put<string>(`${baseUrl}/news/${newsId}`, news)
+  updateNews(news: FormData, newsId: string): Observable<string> {
+    return this.http.post<string>(`${baseUrl}/news/${newsId}`, news)
   }
 
   deleteNews(newsId: string): Observable<string> {

@@ -12,7 +12,7 @@ import { combineLatest, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-news-list',
-  imports: [NewsCardComponent, NewsFiltersComponent, SearchComponent],
+  imports: [NewsCardComponent, NewsFiltersComponent],
   templateUrl: './news-list.component.html',
   styleUrl: './news-list.component.css',
   providers: [CategorieService, NewsService]
